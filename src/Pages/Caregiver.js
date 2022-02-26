@@ -123,22 +123,29 @@ export default function Caregiver(){
                         width: "87vw",
                         height: "35vh",
                         backgroundColor: 'rgba(186, 211, 159, 1)',
-                        marginTop: "2vh"
+                        marginTop: "3vh"
                     }}
                 >
                     <div style={{
                         display: "flex",
-                        flexDirection: "row"
+                        flexDirection: "row",
+                        border: '1px solid #000000'
                     }}>
+                        <div style ={{
+                            marginLeft: '-5vw'
+                        }}>
                         <AccountCircleIcon style={{fontSize: "30vh", marginTop: "2.5vh", marginLeft: "10vw", marginRight: "10vw"}} />
+                        </div>
                         <div style={{
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "flex-start"
+                            alignItems: "flex-start",
+                            border: '1px solid #000000',
+                            marginLeft: '-5vw'
                         }}>
                             <div style={{
                                 display: "flex",
-                                flexDirection: "row"
+                                flexDirection: "row",
                             }}>
                                 <Typography sx={{
                                     fontFamily: "Nunito",
@@ -146,7 +153,7 @@ export default function Caregiver(){
                                 }}>
                                     Name:
                                 </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "44.1vw"}} inputProps={{
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "44.1vw"}} inputProps={{
                                     style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
                                 }} ref={nameRef}/>
                             </div>
@@ -160,7 +167,7 @@ export default function Caregiver(){
                                 }}>
                                     Age:
                                 </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "45.8vw"}} inputProps={{
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "45.8vw"}} inputProps={{
                                     style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
                                 }} ref={ageRef}/>
                             </div>
@@ -174,7 +181,7 @@ export default function Caregiver(){
                                 }}>
                                     Medical history:
                                 </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "35vw"}} inputProps={{
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.55vh", fontSize: "4vh", width: "35vw"}} inputProps={{
                                     style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
                                 }} ref={medHistRef}/>
                             </div>
@@ -191,10 +198,13 @@ export default function Caregiver(){
                     <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Activity View</NormalButton>
                     <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Text Settings</NormalButton>
                 </div>
+                <TextSettings/>
             </div>
 
         )
     }
+    
+
 
     return(
         <div>
@@ -209,8 +219,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                 }}>
 
-                Doctor Page
-
+                Doctor Page 
                 </Typography>
             </div>
             <div>
