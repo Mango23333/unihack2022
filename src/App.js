@@ -1,4 +1,4 @@
-import './App.css';
+import './index.css';
 import { initializeApp } from "firebase/app";
 
 import LoginPage from "./Pages/LoginPage";
@@ -23,7 +23,7 @@ function App() {
 
   return (
       <CurrentPageContext.Provider value={[currentPage, setCurrentPage]}>
-        <div className="App">
+        <div>
           {currentPage === "main" && <Main/>}
           {currentPage === "login" && <LoginPage/>}
         </div>
