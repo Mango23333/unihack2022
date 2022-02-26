@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 
 import LoginPage from "./Pages/LoginPage";
 import Main from "./Pages/MainPage";
+import Caregiver from './Pages/Caregiver';
 import {CurrentPageContext} from "./Contexts/CurrentPageContext";
 import {useState} from "react";
 
@@ -26,6 +27,7 @@ function App() {
         <div className="App">
           {currentPage === "main" && <Main/>}
           {currentPage === "login" && <LoginPage/>}
+          {currentPage === "patients" && <Caregiver/>}
         </div>
       </CurrentPageContext.Provider>
   );

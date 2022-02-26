@@ -12,6 +12,9 @@ export default function Main(){
             <NormalButton onClick={() => {
                 setCurrentPage("login")
             }}>Login page</NormalButton>
+            <NormalButton onClick={() => {
+                setCurrentPage("patients")
+            }}>Doctor</NormalButton>
         </div>
 
     )
