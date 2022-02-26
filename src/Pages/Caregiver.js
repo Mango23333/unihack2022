@@ -8,9 +8,14 @@ import { Modal, tabsListUnstyledClasses, Typography } from '@mui/material';
 import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import Patients from "../Components/PatientProfile";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NormalButton from '../Components/NormalButton';
+import AddPatient from '../Components/AddPatientPopup';
 
 export default function Main(){
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
+    const [openAP, setOpenAP] = React.useState(false);
+    const handleOpenAP = () => setOpenAP(true);
+    const handleCloseAP = () => setOpenAP(false);
 
     /* HELPER TO FIGURE OUT FORMATS
     const Flashcard_button = styled(Button)(({ theme }) => ({
@@ -141,6 +146,11 @@ export default function Main(){
                     }} name = "Bob" age ='87' stage = '3'/> 
                     
                 </Box>
+                
+                <NormalButton onClick={handleOpenAP}>
+                    Add patient
+                </NormalButton>
+                <AddPatient openpop={openAP} handleClosepop={handleCloseAP}/>
             </Box>
             </div>
 
