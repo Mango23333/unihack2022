@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 
 import LoginPage from "./Pages/LoginPage";
 import Main from "./Pages/MainPage";
+import Caregiver from './Pages/Caregiver';
+import Chat from './Pages/Chat';
 import {CurrentPageContext} from "./Contexts/CurrentPageContext";
 import {useState} from "react";
 
@@ -23,9 +25,13 @@ function App() {
 
   return (
       <CurrentPageContext.Provider value={[currentPage, setCurrentPage]}>
-        <div>
+        <div style={{
+          textAlign: "center"
+        }}>
           {currentPage === "main" && <Main/>}
           {currentPage === "login" && <LoginPage/>}
+          {currentPage === "patients" && <Caregiver/>}
+          {currentPage === "chat" && <Chat/>}
         </div>
       </CurrentPageContext.Provider>
   );
