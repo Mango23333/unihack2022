@@ -10,7 +10,7 @@ export default function Main(){
         <div style={{
             textAlign: "center"
         }}>
-            <h1>Main Page</h1>
+            <h1 className={"h1"}>Main Page</h1>
             <body>asdfasdfsad</body>
             <NormalButton onClick={() => {
                 setCurrentPage("login")
