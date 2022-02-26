@@ -18,6 +18,7 @@ export default function Caregiver(){
     const [patientData, setPatientData] = useState([]);
     const [currentPatient, setCurrentPatient] = useState(null);
     const [chartData, setChartData] = useState([]);
+    const [view, setView] = useState("settings")
 
     const nameRef = useRef(null);
     const ageRef = useRef(null);
@@ -105,14 +106,14 @@ export default function Caregiver(){
             });
   }
 
-  function VoiceMessage() {
+    function VoiceMessage() {
     const VoiceCard = styled(Button)(({ theme }) => ({
         color: '#000000',
             backgroundColor: "#8AA861",
             borderColor: "2px solid #000000",
             fontSize: '2vh',
             height: 55,
-            width: '39vw', 
+            width: '39vw',
             borderRadius: '12px', //NEED TO ORGANISE
             position: 'relative',
             p: 2,
@@ -125,7 +126,7 @@ export default function Caregiver(){
 
 
     return(
-        <VoiceCard> 
+        <VoiceCard>
             <Typography>
               Voiceobject.name
             </Typography>
@@ -135,14 +136,14 @@ export default function Caregiver(){
   }
 
 
-  function TextMessage() {
+    function TextMessage() {
     const TextCard = styled(Button)(({ theme }) => ({
         color: '#000000',
             backgroundColor: "#8AA861",
             borderColor: "2px solid #000000",
             fontSize: '2vh',
             height: 55,
-            width: '39vw', 
+            width: '39vw',
             borderRadius: '12px', //NEED TO ORGANISE
             position: 'relative',
             p: 2,
@@ -155,7 +156,7 @@ export default function Caregiver(){
 
 
     return(
-        <TextCard> 
+        <TextCard>
             <Typography>
               Textobject.name
             </Typography>
@@ -164,14 +165,14 @@ export default function Caregiver(){
 
   }
 
-  function Activity() {
+    function Activity() {
     const ActivityCard = styled(Button)(({ theme }) => ({
         color: '#000000',
             backgroundColor: "#8AA861",
             borderColor: "2px solid #000000",
             fontSize: '2vh',
             height: 55,
-            width: '70vw', 
+            width: '70vw',
             borderRadius: '12px', //NEED TO ORGANISE
             position: 'relative',
             p: 2,
@@ -184,7 +185,7 @@ export default function Caregiver(){
 
 
     return(
-        <ActivityCard> 
+        <ActivityCard>
             <Typography>
               Activityobject.name
             </Typography>
@@ -240,23 +241,20 @@ export default function Caregiver(){
                 alignItems: "center",
                 flexDirection: "column",
             }}>
-                <Box 
+                <Box
                     sx={{
                     width: "88vw",
                     height: '70vh',
                     margin: "3vh",
                     border: ' 1px solid rgba(200, 0, 0, 1)',
                     overflow: 'auto',
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: 'center'
                     }}>
                     <Box
                     sx={{
                         width: "87vw",
                         height: "35vh",
                         backgroundColor: 'rgba(186, 211, 159, 1)',
-                        
+
                     }}
                 >
                     <div style={{
@@ -329,20 +327,18 @@ export default function Caregiver(){
                     marginTop: "3vh",
                     columnGap: "7vw"
                 }}>
-                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Activity View</NormalButton>
-                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Text Settings</NormalButton>
+                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("activity")}}>Activity View</NormalButton>
+                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("settings")}}>Text Settings</NormalButton>
                 </div>
-<<<<<<< HEAD
-                <ActivityView/>
-=======
-                <TextSettings/>
+                    {view === "activity" && <ActivityView/>}
+                    {view === "settings" && <TextSettings/>}
                 </Box>
-                
->>>>>>> 68da145d2529360f606b0131bf95783d25210f28
+
             </div>
 
         )
     }
+
     function TextSettings(){
         return (
         <div>
@@ -359,10 +355,10 @@ export default function Caregiver(){
                     flexDirection: "row",
                     alignItems: "center",
                     marginTop: "5vh",
-                    
+
             }}>
-                
-                <div  
+
+                <div
                     style={{
                     display: "flex",
                     flexDirection: "column",
@@ -371,7 +367,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                     width: "60vw",
                     height: "65vh",}}>
-                    
+
                     <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh'}}>
                         Voice messages
                     </Typography>
@@ -386,7 +382,7 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <VoiceMessage/>
-                         
+
 
                     </div>
                     <div style ={{
@@ -397,15 +393,15 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        
+
                         <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                   
+
                     </div>
-                        
-                       
-                    
+
+
+
                 </div>
-                <div  
+                <div
                     style={{
                     display: "flex",
                     flexDirection: "column",
@@ -414,7 +410,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                     width: "60vw",
                     height: "65vh",}}>
-                    
+
                     <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh'}}>
                         Text messages
                     </Typography>
@@ -429,7 +425,7 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <TextMessage/>
-                         
+
 
                     </div>
                     <div style ={{
@@ -440,13 +436,13 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        
+
                         <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                   
+
                     </div>
-                        
-                       
-                    
+
+
+
                 </div>
 
             </div>
@@ -459,8 +455,8 @@ export default function Caregiver(){
                 marginLeft: '3vh',
                 marginRight: '3vh',
                 border: '5px solid #000000',}}>
-                    
-                <div  
+
+                <div
                 style={{
                 display: "flex",
                 flexDirection: "column",
@@ -468,7 +464,7 @@ export default function Caregiver(){
                 width: "90vw",
                 border: '1px solid #000000',
                 height: "65vh",}}>
-                    
+
                     <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh', display: "flex",flexDirection: "row", alignItems: "center",}}>
                         Activities and Reminders
                     </Typography>
@@ -483,7 +479,7 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <Activity/>
-                         
+
 
                     </div>
                     <div style ={{
@@ -494,20 +490,20 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        
+
                         <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                   
+
                     </div>
-                        
-                       
-                    
+
+
+
                 </div>
                 </div>
             </Box>
-            
-        </div> 
 
-         
+        </div>
+
+
         )
     }
 
@@ -517,7 +513,7 @@ export default function Caregiver(){
             <Box
                 sx={{
                     width: "87vw",
-                    height: "60vh",
+                    height: "65vh",
                     backgroundColor: 'rgba(186, 211, 159, 1)',
                     marginTop: "5vh",
                     marginBottom: "5vh"
@@ -613,7 +609,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                 }}>
 
-                Doctor Page 
+                Doctor Page
                 </Typography>
             </div>
             <div>
