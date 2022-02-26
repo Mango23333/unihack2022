@@ -34,66 +34,128 @@ export default function Main(){
         textTransform: 'capitalize'
     }));*/
 
-    const Patient = styled(Button)(({ theme }) => ({
-        color: '#000000',
-        backgroundColor: "#BAD39F",
-        borderColor: "2px solid #000000",
-        fontSize: '2vh',
-        height: 118, // TO CHANGE
-        width: 100,
-        minwidth: '20%', // TO CHANGE
-        borderRadius: '12px',
-        position: 'relative',
-        '&:hover': {
-            backgroundColor: "#A6BE8D",
-            borderColor: "#000000",
-        }
+    
+    function Patient(props) {
+        const Info = styled(Button)(({ theme }) => ({
+            color: '#000000',
+            backgroundColor: "#BAD39F",
+            borderColor: "2px solid #000000",
+            fontSize: '2vh',
+            height: 120, // TO CHANGE
+            width: 200,
+            minwidth: '20%', // TO CHANGE
+            borderRadius: '12px',
+            position: 'relative',
+            
+            '&:hover': {
+                backgroundColor: "#A6BE8D",
+                borderColor: "#000000",
+            }
+    
+        }));
 
-    }));
+
+        return (
+        <Box
+        sx={{
+          p: 1,
+          m: 1,
+          borderRadius: 2,
+          fontFamily: 'Nunito',
+        }}>
+        <Info > {props.text}</Info>
+
+        </Box>
+        );
+  }
 
     return(
         <div>
-            <h1>Doctor page</h1>
+            <div >
+                <Typography
+                    sx = {{
+                    fontFamily: 'Oxygen',
+                    fontSize:'260%',
+                    color: '#000000',
+                    textAlign: "left",  
+                    marginLeft: '2vw',
+                    border: '1px solid #000000', 
+                }}>
+ 
+                Doctor Page
 
+                </Typography>
+            </div> 
+            <div>
             <Box sx={{
                 border: '2px solid #6A874B',
                 borderRadius: '4px',
                 marginTop: '0.5%',
-                height: '56vh',
+                height: '70vh',
                 flexDirection: 'row',
-                width: '90.7vw',
+                width: '90.6vw',
                 overflow: 'auto',
-                marginLeft: '4.65vw',
+                marginLeft: '2vw', // adjust
                 backgroundColor: '#FFFCD6',
             }}>
+                <Typography sx={{
+                    fontFamily: 'Nunito',
+                    fontSize: 20,
+                    textAlign: "left",
+                    marginTop: "1vh",
+                    marginLeft: '2vh',
+                    p: 2.5,
+                    }}
+                >
+                    Patients
 
-                <Box sx = {{
+                </Typography>
+
+                
+
+                <Box
+                    sx={{
                     border: '2px solid #6A874B',
                     margin: '5vh',
+                    marginTop: '-2vh',
                     display: 'flex',
-                    flexDirection: 'row',
+                    flexWrap: 'wrap',
                     justifyContent: 'space-evenly',
                     alignContent: 'flex-start',
-                }}>
+                    p: 1,
+                    overflow: 'auto',
+                    m: 1,
+                    bgcolor: 'background.paper',
+                    borderRadius: 1,
+                    }}>
+
                     <Patient onClick={() => {
                         setCurrentPage("login")
-                    }}>PATIENT 1 change path </Patient>
-                    <Patient onClick={() => {
-                        setCurrentPage("login")
-                    }}>PATIENT 2 change path </Patient>
-                    <Patient onClick={() => {
-                        setCurrentPage("login")
-                    }}>PATIENT 3 change path </Patient>
- 
+                    }} text = "hello"/> 
+                    
                 </Box>
-
-
             </Box>
-           
+            </div>
+
         </div>
 
     )
 }
 /* <NormalButton onClick={() => {
                 setCurrentPage("login")
-            }}>Login page</NormalButton> */
+            }}>Login page</NormalButton> 
+            
+            
+<Box sx = {{
+                    border: '2px solid #6A874B',
+                    margin: '5vh',
+                    marginTop: '-2vh',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-evenly',
+                    alignContent: 'flex-start',
+                    overflow: 'auto',
+                    height: '65vh',
+                }}>
+                */
