@@ -9,19 +9,21 @@ const CssTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
             borderColor: 'rgba(106, 135, 75, 1)',
-            borderWidth: 2
+            borderWidth: 0
         },
         '&:hover fieldset': {
             borderColor: 'rgba(106, 135, 75, 1)',
+            borderWidth: 0
         },
         '&.Mui-focused fieldset': {
             borderColor: 'rgba(106, 135, 75, 1)',
+            borderWidth: 0
         }
     },
 });
 
-export const NormalTextfield = forwardRef((props, ref) => {
+export const EditableTextfield = forwardRef((props, ref) => {
     return(
-        <CssTextField label={props.label} style={props.style} inputRef={ref} inputProps={props.inputProps}/>
+        <CssTextField label={props.label} style={props.style} inputRef={ref} inputProps={props.inputProps} multiline/>
     )
 })

@@ -1,24 +1,35 @@
 import * as React from 'react';
-import {useContext, useEffect, useState} from "react";
+import {forwardRef, useContext, useEffect, useRef, useState} from "react";
 import { styled } from '@mui/material';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
-import { flexbox } from '@mui/system';
-import { Modal, tabsListUnstyledClasses, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import {CurrentPageContext} from "../Contexts/CurrentPageContext";
-import Patients from "../Components/PatientProfile";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
-import Detailed from "./Detailed";
+import {EditableTextfield} from "../Components/EditableTextfield";
+import NormalButton from "../Components/NormalButton";
 
 export default function Caregiver(){
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
     const [patientData, setPatientData] = useState([]);
-    const [detailedView, setDetailedView] = useState(true);
+    const [currentPatient, setCurrentPatient] = useState(null);
+
+    const nameRef = useRef(null);
+    const ageRef = useRef(null);
+    const medHistRef = useRef(null);
 
     useEffect(() => {
-        setPatientData([{name: "Bob", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob", stage: 4, age: 52}])
+        setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9"}])
     }, [])
+
+    useEffect(() => {
+        if(currentPatient != null){
+            nameRef.current.value = currentPatient.name;
+            ageRef.current.value = currentPatient.age;
+            medHistRef.current.value = currentPatient.medHistory;
+        }
+
+    }, [currentPatient])
 
 
     function PatientCard() {
@@ -41,7 +52,9 @@ export default function Caregiver(){
 
         return patientData.map((obj) => {
                 return (
-                    <Info>
+                    <Info onClick={() => {
+                        setCurrentPatient(obj)
+                    }}>
                         <div style={{
                             display: "flex",
                             flexDirection: "column",
@@ -92,12 +105,94 @@ export default function Caregiver(){
                         borderRadius: 1,
                     }}>
 
-                    <PatientCard onClick={() => {
-                        setCurrentPage("login")
-                    }}/>
-
+                    <PatientCard />
                 </Box>
             </div>
+        )
+    }
+
+    function Detailed(){
+        return(
+            <div style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column"
+            }}>
+                <Box
+                    sx={{
+                        width: "87vw",
+                        height: "35vh",
+                        backgroundColor: 'rgba(186, 211, 159, 1)',
+                        marginTop: "2vh"
+                    }}
+                >
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row"
+                    }}>
+                        <AccountCircleIcon style={{fontSize: "30vh", marginTop: "2.5vh", marginLeft: "10vw", marginRight: "10vw"}} />
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start"
+                        }}>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "row"
+                            }}>
+                                <Typography sx={{
+                                    fontFamily: "Nunito",
+                                    fontSize: "4vh"
+                                }}>
+                                    Name:
+                                </Typography>
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "44.1vw"}} inputProps={{
+                                    style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
+                                }} ref={nameRef}/>
+                            </div>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "row"
+                            }}>
+                                <Typography sx={{
+                                    fontFamily: "Nunito",
+                                    fontSize: "4vh"
+                                }}>
+                                    Age:
+                                </Typography>
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "45.8vw"}} inputProps={{
+                                    style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
+                                }} ref={ageRef}/>
+                            </div>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "row"
+                            }}>
+                                <Typography sx={{
+                                    fontFamily: "Nunito",
+                                    fontSize: "4vh"
+                                }}>
+                                    Medical history:
+                                </Typography>
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "35vw"}} inputProps={{
+                                    style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
+                                }} ref={medHistRef}/>
+                            </div>
+                        </div>
+                    </div>
+                </Box>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: "3vh",
+                    columnGap: "7vw"
+                }}>
+                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Activity View</NormalButton>
+                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Text Settings</NormalButton>
+                </div>
+            </div>
+
         )
     }
 
@@ -130,8 +225,8 @@ export default function Caregiver(){
                     marginLeft: '2vw', // adjust
                     backgroundColor: '#FFFCD6',
                 }}>
-                    {detailedView === false && Overview()}
-                    {detailedView === true && Detailed()}
+                    {currentPatient == null && Overview()}
+                    {currentPatient != null && Detailed()}
                 </Box>
             </div>
         </div>
