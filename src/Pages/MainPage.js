@@ -7,8 +7,11 @@ export default function Main(){
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
 
     return(
-        <div>
+        <div style={{
+            textAlign: "center"
+        }}>
             <h1>Main Page</h1>
+            <body>asdfasdfsad</body>
             <NormalButton onClick={() => {
                 setCurrentPage("login")
             }}>Login page</NormalButton>
@@ -19,6 +22,5 @@ export default function Main(){
                 setCurrentPage("chat")
             }}>Chat</NormalButton>
         </div>
-
     )
 }
