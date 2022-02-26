@@ -105,6 +105,94 @@ export default function Caregiver(){
             });
   }
 
+  function VoiceMessage() {
+    const VoiceCard = styled(Button)(({ theme }) => ({
+        color: '#000000',
+            backgroundColor: "#8AA861",
+            borderColor: "2px solid #000000",
+            fontSize: '2vh',
+            height: 55,
+            width: '39vw', 
+            borderRadius: '12px', //NEED TO ORGANISE
+            position: 'relative',
+            p: 2,
+
+            '&:hover': {
+                backgroundColor: "#BAD39F",
+                borderColor: "#000000",
+            }
+    }));
+
+
+    return(
+        <VoiceCard> 
+            <Typography>
+              Voiceobject.name
+            </Typography>
+        </VoiceCard>
+    )
+
+  }
+
+
+  function TextMessage() {
+    const TextCard = styled(Button)(({ theme }) => ({
+        color: '#000000',
+            backgroundColor: "#8AA861",
+            borderColor: "2px solid #000000",
+            fontSize: '2vh',
+            height: 55,
+            width: '39vw', 
+            borderRadius: '12px', //NEED TO ORGANISE
+            position: 'relative',
+            p: 2,
+
+            '&:hover': {
+                backgroundColor: "#BAD39F",
+                borderColor: "#000000",
+            }
+    }));
+
+
+    return(
+        <TextCard> 
+            <Typography>
+              Textobject.name
+            </Typography>
+        </TextCard>
+    )
+
+  }
+
+  function Activity() {
+    const ActivityCard = styled(Button)(({ theme }) => ({
+        color: '#000000',
+            backgroundColor: "#8AA861",
+            borderColor: "2px solid #000000",
+            fontSize: '2vh',
+            height: 55,
+            width: '70vw', 
+            borderRadius: '12px', //NEED TO ORGANISE
+            position: 'relative',
+            p: 2,
+
+            '&:hover': {
+                backgroundColor: "#BAD39F",
+                borderColor: "#000000",
+            }
+    }));
+
+
+    return(
+        <ActivityCard> 
+            <Typography>
+              Activityobject.name
+            </Typography>
+        </ActivityCard>
+    )
+
+  }
+
     function Overview(){
         return (
             <div>
@@ -150,29 +238,48 @@ export default function Caregiver(){
             <div style={{
                 display: "flex",
                 alignItems: "center",
-                flexDirection: "column"
+                flexDirection: "column",
             }}>
-                <Box
+                <Box 
+                    sx={{
+                    width: "88vw",
+                    height: '70vh',
+                    margin: "3vh",
+                    border: ' 1px solid rgba(200, 0, 0, 1)',
+                    overflow: 'auto',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: 'center'
+                    }}>
+                    <Box
                     sx={{
                         width: "87vw",
                         height: "35vh",
                         backgroundColor: 'rgba(186, 211, 159, 1)',
-                        marginTop: "2vh"
+                        
                     }}
                 >
                     <div style={{
                         display: "flex",
-                        flexDirection: "row"
+                        flexDirection: "row",
+                        border: '1px solid #000000'
                     }}>
+                        <div style ={{
+                            marginLeft: '-5vw'
+                        }}>
                         <AccountCircleIcon style={{fontSize: "30vh", marginTop: "2.5vh", marginLeft: "10vw", marginRight: "10vw"}} />
+                        </div>
                         <div style={{
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "flex-start"
+                            alignItems: "flex-start",
+                            border: '1px solid #000000',
+                            width: '60vw',
+                            marginLeft: '-5vw'
                         }}>
                             <div style={{
                                 display: "flex",
-                                flexDirection: "row"
+                                flexDirection: "row",
                             }}>
                                 <Typography sx={{
                                     fontFamily: "Nunito",
@@ -180,7 +287,7 @@ export default function Caregiver(){
                                 }}>
                                     Name:
                                 </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "44.1vw"}} inputProps={{
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "44.1vw"}} inputProps={{
                                     style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
                                 }} ref={nameRef}/>
                             </div>
@@ -194,7 +301,7 @@ export default function Caregiver(){
                                 }}>
                                     Age:
                                 </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "45.8vw"}} inputProps={{
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "45.8vw"}} inputProps={{
                                     style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
                                 }} ref={ageRef}/>
                             </div>
@@ -208,7 +315,7 @@ export default function Caregiver(){
                                 }}>
                                     Medical history:
                                 </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.7vh", fontSize: "4vh", width: "35vw"}} inputProps={{
+                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.55vh", fontSize: "4vh", width: "35vw"}} inputProps={{
                                     style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
                                 }} ref={medHistRef}/>
                             </div>
@@ -225,11 +332,185 @@ export default function Caregiver(){
                     <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Activity View</NormalButton>
                     <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Text Settings</NormalButton>
                 </div>
+<<<<<<< HEAD
                 <ActivityView/>
+=======
+                <TextSettings/>
+                </Box>
+                
+>>>>>>> 68da145d2529360f606b0131bf95783d25210f28
             </div>
 
         )
     }
+    function TextSettings(){
+        return (
+        <div>
+            <Box
+                sx={{
+                    width: "87vw",
+                    height: "150vh",
+                    backgroundColor: 'rgba(186, 211, 159, 1)',
+                    marginTop: "3vh"
+                }}
+            >
+            <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: "5vh",
+                    
+            }}>
+                
+                <div  
+                    style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    margin: '3vh',
+                    border: '1px solid #000000',
+                    width: "60vw",
+                    height: "65vh",}}>
+                    
+                    <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh'}}>
+                        Voice messages
+                    </Typography>
+                    <div style ={{
+                        border: '1px solid #ffffff',
+                        width: "39.5vw",
+                        height: '50vh',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        rowGap: '2vh',
+                        overflow: 'auto',
+                        }}>
+                        <VoiceMessage/>
+                         
+
+                    </div>
+                    <div style ={{
+                        border: '1px solid #ffffff',
+                        width: "39.5vw",
+                        height: '5vh',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        marginTop: '1.5vh'}}>
+                        
+                        <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
+                   
+                    </div>
+                        
+                       
+                    
+                </div>
+                <div  
+                    style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    margin: '3vh',
+                    border: '1px solid #000000',
+                    width: "60vw",
+                    height: "65vh",}}>
+                    
+                    <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh'}}>
+                        Text messages
+                    </Typography>
+                    <div style ={{
+                        border: '1px solid #ffffff',
+                        width: "39.5vw",
+                        height: '50vh',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        rowGap: '2vh',
+                        overflow: 'auto',
+                        }}>
+                        <TextMessage/>
+                         
+
+                    </div>
+                    <div style ={{
+                        border: '1px solid #ffffff',
+                        width: "39.5vw",
+                        height: '5vh',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        marginTop: '1.5vh'}}>
+                        
+                        <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
+                   
+                    </div>
+                        
+                       
+                    
+                </div>
+
+            </div>
+
+            <div style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: "5vh",
+                marginLeft: '3vh',
+                marginRight: '3vh',
+                border: '5px solid #000000',}}>
+                    
+                <div  
+                style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                width: "90vw",
+                border: '1px solid #000000',
+                height: "65vh",}}>
+                    
+                    <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh', display: "flex",flexDirection: "row", alignItems: "center",}}>
+                        Activities and Reminders
+                    </Typography>
+                    <div style ={{
+                        border: '1px solid #ffffff',
+                        width: "100%",
+                        height: '50vh',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        rowGap: '2vh',
+                        overflow: 'auto',
+                        }}>
+                        <Activity/>
+                         
+
+                    </div>
+                    <div style ={{
+                        border: '1px solid #ffffff',
+                        width: '100%',
+                        height: '5vh',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        marginTop: '1.5vh'}}>
+                        
+                        <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
+                   
+                    </div>
+                        
+                       
+                    
+                </div>
+                </div>
+            </Box>
+            
+        </div> 
+
+         
+        )
+    }
+
 
     function ActivityView(){
         return(
@@ -332,8 +613,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                 }}>
 
-                Doctor Page
-
+                Doctor Page 
                 </Typography>
             </div>
             <div>
@@ -341,10 +621,10 @@ export default function Caregiver(){
                     border: '2px solid #6A874B',
                     borderRadius: '4px',
                     marginTop: '0.5%',
-                    height: '70vh',
+                    height: '77vh', //70vh
                     flexDirection: 'row',
                     width: '90.6vw',
-                    overflow: 'auto',
+                    //overflow: 'auto', // to remove
                     marginLeft: '2vw', // adjust
                     backgroundColor: '#FFFCD6',
                 }}>
