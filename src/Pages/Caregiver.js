@@ -9,10 +9,12 @@ import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import Patients from "../Components/PatientProfile";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-export default function Main(){
+import Detailed from "./Detailed";
+
+export default function Caregiver(){
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
     const [patientData, setPatientData] = useState([]);
-    const [detailedView, setDetailedView] = useState(false);
+    const [detailedView, setDetailedView] = useState(true);
 
     useEffect(() => {
         setPatientData([{name: "Bob", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob2", stage: 4, age: 52}, {name: "Bob", stage: 4, age: 52}])
@@ -129,6 +131,7 @@ export default function Main(){
                     backgroundColor: '#FFFCD6',
                 }}>
                     {detailedView === false && Overview()}
+                    {detailedView === true && Detailed()}
                 </Box>
             </div>
         </div>
