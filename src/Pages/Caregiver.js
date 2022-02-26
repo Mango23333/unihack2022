@@ -8,18 +8,33 @@ import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {EditableTextfield} from "../Components/EditableTextfield";
 import NormalButton from "../Components/NormalButton";
+import axios from "axios";
+import {PieChart, Pie} from 'recharts'
 
 export default function Caregiver(){
+    const URL = "http://34.129.170.115:3000";
+
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
     const [patientData, setPatientData] = useState([]);
     const [currentPatient, setCurrentPatient] = useState(null);
+    const [chartData, setChartData] = useState([]);
 
     const nameRef = useRef(null);
     const ageRef = useRef(null);
     const medHistRef = useRef(null);
 
+    console.log(chartData)
+
+    const testData = {
+        name: "Bob",
+        stage: 1000,
+        age: 52,
+        medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",
+        chats: ["I hate you", "I enjoy eating apples", "I'm really excited for this particular event to happen tomorrow, are you excited?"]
+    }
+
     useEffect(() => {
-        setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9"}])
+        setPatientData([testData])
     }, [])
 
     useEffect(() => {
@@ -27,8 +42,27 @@ export default function Caregiver(){
             nameRef.current.value = currentPatient.name;
             ageRef.current.value = currentPatient.age;
             medHistRef.current.value = currentPatient.medHistory;
-        }
 
+            currentPatient.chats.forEach((chatMsg) => {
+                axios.get(`${URL}/emotion?text=${chatMsg}`).then((response) => {
+                    var hasFound = false;
+
+                    for(var i = 0; i < chartData.length; i++){
+                        var elem = chartData[i];
+                        if (elem.name === response.data[0].label){
+                            hasFound = true;
+                            elem.value += 1;
+                        }
+                    }
+
+                    if (!hasFound){
+                        chartData.push({name: response.data[0].label, value: 1})
+                    }
+
+                    setChartData([...chartData])
+                })
+            })
+        }
     }, [currentPatient])
 
 
@@ -191,8 +225,97 @@ export default function Caregiver(){
                     <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Activity View</NormalButton>
                     <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Text Settings</NormalButton>
                 </div>
+                <ActivityView/>
             </div>
 
+        )
+    }
+
+    function ActivityView(){
+        return(
+            <Box
+                sx={{
+                    width: "87vw",
+                    height: "60vh",
+                    backgroundColor: 'rgba(186, 211, 159, 1)',
+                    marginTop: "5vh",
+                    marginBottom: "5vh"
+                }}
+            >
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    columnGap: "3vw",
+                }}>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "40vw",
+                        alignItems: "flex-start",
+                        marginLeft: "3vw"
+                    }}>
+                        <Typography sx={{
+                            fontSize: "6vh",
+                            fontFamily: "Nunito"
+                        }}>
+                            {currentPatient.name}'s emotion analysis
+                        </Typography>
+                        <Box sx={{
+                            backgroundColor: "#FFFCD6",
+                            width: "30vw",
+                            height: "47vh"
+                        }}>
+                            <div style={{
+                                display: "flex",
+                                marginTop: "4vh",
+                                marginLeft: "-5vw"
+                            }}>
+                                <PieChart width={window.innerWidth * 0.4} height={window.innerHeight * 0.4}>
+                                    <Pie data={chartData} dataKey={"value"} nameKey={"name"} label={(entry) => {
+                                        return entry.name
+                                    }}/>
+                                </PieChart>
+                            </div>
+                        </Box>
+                    </div>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "40vw",
+                        alignItems: "flex-start",
+                        marginLeft: "3vw"
+                    }}>
+                        <Typography sx={{
+                            fontSize: "6vh",
+                            fontFamily: "Nunito"
+                        }}>
+                            {currentPatient.name}'s chat logs
+                        </Typography>
+                        <Box sx={{
+                            backgroundColor: "#FFFCD6",
+                            width: "35vw",
+                            height: "47vh"
+                        }}>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                textAlign: "left"
+                            }}>
+                                {currentPatient.chats.map((chatMsg) => {
+                                    return(
+                                        <Typography sx={{
+                                            fontSize: "2vh",
+                                            fontFamily: "Nunito"
+                                        }}>
+                                            Message: {chatMsg}
+                                        </Typography>
+                                    )
+                                })}
+                            </div>
+                        </Box>
+                    </div>
+                </div>
+            </Box>
         )
     }
 
