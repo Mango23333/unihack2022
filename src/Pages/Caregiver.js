@@ -7,6 +7,7 @@ import { flexbox } from '@mui/system';
 import { Modal, tabsListUnstyledClasses, Typography } from '@mui/material';
 import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import Patients from "../Components/PatientProfile";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Main(){
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
@@ -63,7 +64,13 @@ export default function Main(){
           borderRadius: 2,
           fontFamily: 'Nunito',
         }}>
-        <Info > {props.text}</Info>
+        <Info 
+            icon={<AccountCircleIcon style={{color: '#ede7e3'}}/>}> 
+            <Typography>
+                {props.name} - {props.age} <br/>
+                Stage {props.stage}
+            </Typography>
+        </Info>
 
         </Box>
         );
@@ -102,9 +109,7 @@ export default function Main(){
                     fontFamily: 'Nunito',
                     fontSize: 20,
                     textAlign: "left",
-                    marginTop: "1vh",
-                    marginLeft: '2vh',
-                    p: 2.5,
+                    margin: '3vh',
                     }}
                 >
                     Patients
@@ -115,8 +120,10 @@ export default function Main(){
 
                 <Box
                     sx={{
-                    border: '2px solid #6A874B',
+                    border: '2px solid #000000', // to remove
                     margin: '5vh',
+                    marginLeft: '3vh',
+                    marginRight: '3vh',
                     marginTop: '-2vh',
                     display: 'flex',
                     flexWrap: 'wrap',
@@ -131,7 +138,7 @@ export default function Main(){
 
                     <Patient onClick={() => {
                         setCurrentPage("login")
-                    }} text = "hello"/> 
+                    }} name = "Bob" age ='87' stage = '3'/> 
                     
                 </Box>
             </Box>
