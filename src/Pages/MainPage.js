@@ -11,9 +11,16 @@ export default function Main(){
             textAlign: "center"
         }}>
             <h1>Main Page</h1>
+            <body>asdfasdfsad</body>
             <NormalButton onClick={() => {
                 setCurrentPage("login")
             }}>Login page</NormalButton>
+            <NormalButton onClick={() => {
+                setCurrentPage("patients")
+            }}>Doctor</NormalButton>
+            <NormalButton onClick={() => {
+                setCurrentPage("chat")
+            }}>Chat</NormalButton>
         </div>
     )
 }
