@@ -122,7 +122,25 @@ export default function Caregiver(){
         }
     }, [currentPatient])
 
+    useEffect(() => {
+        if(currentVoice != null){
+            voicenameRef.current.value = currentVoice.name;
+            voicedescRef.current.value = currentVoice.description;
+            voicekeywordRef.current.value = currentVoice.keyword;
+            voicetaskRef.current.value = currentVoice.task;
+        }
 
+    }, [currentVoice])
+
+    useEffect(() => {
+        if(currentText != null){
+            textnameRef.current.value = currentText.name;
+            textdescRef.current.value = currentText.description;
+            textkeywordRef.current.value = currentText.keyword;
+            texttaskRef.current.value = currentText.task;
+        }
+
+    }, [currentText])
 
     function PatientCard() {
         const Info = styled(Button)(({ theme }) => ({
@@ -576,12 +594,12 @@ export default function Caregiver(){
 
 
                         </div>
-                        
+
                     </div>
                 </Box>
-                
+
             </div>
-            
+
 
         )
     }

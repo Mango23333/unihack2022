@@ -7,6 +7,7 @@ import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import {NormalTextfield} from "../Components/NormalTextfield";
 import NormalButton from "../Components/NormalButton";
 import {UserContext} from "../Contexts/UserContext";
+import {PatientContext} from "../Contexts/PatientContext";
 
 export default function LoginPage_patient(){
 
@@ -14,6 +15,9 @@ export default function LoginPage_patient(){
     const passwordRef = useRef(null);
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
     const [user, setUser] = useContext(UserContext);
+    const [patient, setPatient] = useContext(PatientContext)
+
+    const db = getFirestore()
 
     return(
         <div style={{
@@ -54,6 +58,17 @@ export default function LoginPage_patient(){
                             width: "40vw",
                             height: "5vh",
                             color: "white"}}
+                        onClick={async () => {
+                            const patientDocRef = doc(db, "patients", usernameRef.current.value);
+                            const patientDocSnap = await getDoc(patientDocRef)
+
+                            if(patientDocSnap.exists()){
+                                setPatient(patientDocSnap.data())
+                                setCurrentPage("chat")
+                            }else{
+                                alert("Patient does not exist")
+                            }
+                        }}
                     >
                         <Typography
                             sx = {{

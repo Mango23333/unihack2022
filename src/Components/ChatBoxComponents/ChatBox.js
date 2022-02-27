@@ -1,11 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { Box } from '@mui/system';
 import Messages from './MessagesComponents/Messages';
 import { TextField } from '@mui/material';
 import axios from "axios";
+import {PatientContext} from "../../Contexts/PatientContext";
 
 const ChatBox = () => {
     const URL = "http://27.32.153.144:3000";
+
+    const [patient, setPatient] = useContext(PatientContext);
+
+    console.log(patient)
 
     var textSendRef = React.useRef("");
     const [chatHistory, setChatHistory] = React.useState([]);
@@ -34,12 +39,29 @@ const ChatBox = () => {
           if ((event.code === "Enter" || event.code === "NumpadEnter") && textSendRef.current.value.trim() != "") {
             event.preventDefault();
             console.log("Enter key was pressed. Run your function.");
-            axios.get(`${URL}/chat?text=${textSendRef.current.value}`).then((response) => {
-                updateChatHistory({sender: 0, texts: response.data})
-            })
-            currentChat.texts = textSendRef.current.value;
-            currentChat.sender = 1;
-            updateChatHistory(Object.assign({}, currentChat));
+            var specialResponse = false;
+
+            for(var i = 0; i < patient.texts.length; i++){
+                var keywords = patient.texts[i].keywords;
+                for(var j = 0; j < keywords.length; j++){
+                    var match = keywords[j];
+                    if(textSendRef.current.value === match){
+                        specialResponse = true;
+                        updateChatHistory({sender: 1, texts: textSendRef.current.value})
+                        updateChatHistory({sender: 0, texts: patient.texts[i].response})
+                    }
+                }
+            }
+
+            if(!specialResponse){
+                axios.get(`${URL}/chat?text=${textSendRef.current.value}`).then((response) => {
+                    updateChatHistory({sender: 0, texts: response.data})
+                })
+                currentChat.texts = textSendRef.current.value;
+                currentChat.sender = 1;
+                updateChatHistory(Object.assign({}, currentChat));
+            }
+
             textSendRef.current.value = "";
           }
         };
