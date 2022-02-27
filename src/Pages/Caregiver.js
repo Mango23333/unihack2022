@@ -9,11 +9,17 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {EditableTextfield} from "../Components/EditableTextfield";
 import NormalButton from "../Components/NormalButton";
 import AddActivity from "../Components/AddActivities";
+import axios from "axios";
+import {PieChart, Pie} from 'recharts'
 
 export default function Caregiver(){
+    const URL = "http://34.129.170.115:3000";
+
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
     const [patientData, setPatientData] = useState([]);
     const [currentPatient, setCurrentPatient] = useState(null);
+    const [chartData, setChartData] = useState([]);
+    const [view, setView] = useState("settings")
 
     //states for editing does there need to be separate ones for each different voice/text and daily activity
     const [openActivity, setOpenActivity] = React.useState(false);
@@ -25,8 +31,18 @@ export default function Caregiver(){
     const ageRef = useRef(null);
     const medHistRef = useRef(null);
 
+    console.log(chartData)
+
+    const testData = {
+        name: "Bob",
+        stage: 1000,
+        age: 52,
+        medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",
+        chats: ["I hate you", "I enjoy eating apples", "I'm really excited for this particular event to happen tomorrow, are you excited?"]
+    }
+
     useEffect(() => {
-        setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9"}])
+        setPatientData([testData])
     }, [])
 
     useEffect(() => {
@@ -34,8 +50,27 @@ export default function Caregiver(){
             nameRef.current.value = currentPatient.name;
             ageRef.current.value = currentPatient.age;
             medHistRef.current.value = currentPatient.medHistory;
-        }
 
+            currentPatient.chats.forEach((chatMsg) => {
+                axios.get(`${URL}/emotion?text=${chatMsg}`).then((response) => {
+                    var hasFound = false;
+
+                    for(var i = 0; i < chartData.length; i++){
+                        var elem = chartData[i];
+                        if (elem.name === response.data[0].label){
+                            hasFound = true;
+                            elem.value += 1;
+                        }
+                    }
+
+                    if (!hasFound){
+                        chartData.push({name: response.data[0].label, value: 1})
+                    }
+
+                    setChartData([...chartData])
+                })
+            })
+        }
     }, [currentPatient])
 
 
@@ -78,14 +113,14 @@ export default function Caregiver(){
             });
   }
 
-  function VoiceMessage() {
+    function VoiceMessage() {
     const VoiceCard = styled(Button)(({ theme }) => ({
         color: '#000000',
             backgroundColor: "#8AA861",
             borderColor: "2px solid #000000",
             fontSize: '2vh',
             height: 55,
-            width: '39vw', 
+            width: '39vw',
             borderRadius: '12px', //NEED TO ORGANISE
             position: 'relative',
             p: 2,
@@ -98,7 +133,7 @@ export default function Caregiver(){
 
 
     return(
-        <VoiceCard> 
+        <VoiceCard>
             <Typography>
               Voiceobject.name
             </Typography>
@@ -108,14 +143,14 @@ export default function Caregiver(){
   }
 
 
-  function TextMessage() {
+    function TextMessage() {
     const TextCard = styled(Button)(({ theme }) => ({
         color: '#000000',
             backgroundColor: "#8AA861",
             borderColor: "2px solid #000000",
             fontSize: '2vh',
             height: 55,
-            width: '39vw', 
+            width: '39vw',
             borderRadius: '12px', //NEED TO ORGANISE
             position: 'relative',
             p: 2,
@@ -128,7 +163,7 @@ export default function Caregiver(){
 
 
     return(
-        <TextCard> 
+        <TextCard>
             <Typography>
               Textobject.name
             </Typography>
@@ -137,14 +172,14 @@ export default function Caregiver(){
 
   }
 
-  function Activity() {
+    function Activity() {
     const ActivityCard = styled(Button)(({ theme }) => ({
         color: '#000000',
             backgroundColor: "#8AA861",
             borderColor: "2px solid #000000",
             fontSize: '2vh',
             height: 55,
-            width: '70vw', 
+            width: '70vw',
             borderRadius: '12px', //NEED TO ORGANISE
             position: 'relative',
             p: 2,
@@ -157,7 +192,7 @@ export default function Caregiver(){
 
 
     return(
-        <ActivityCard> 
+        <ActivityCard>
             <Typography>
               Activityobject.name
             </Typography>
@@ -213,23 +248,20 @@ export default function Caregiver(){
                 alignItems: "center",
                 flexDirection: "column",
             }}>
-                <Box 
+                <Box
                     sx={{
                     width: "88vw",
                     height: '70vh',
                     margin: "3vh",
                     border: ' 1px solid rgba(200, 0, 0, 1)',
                     overflow: 'auto',
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: 'center'
                     }}>
                     <Box
                     sx={{
                         width: "87vw",
                         height: "35vh",
                         backgroundColor: 'rgba(186, 211, 159, 1)',
-                        
+
                     }}
                 >
                     <div style={{
@@ -302,16 +334,18 @@ export default function Caregiver(){
                     marginTop: "3vh",
                     columnGap: "7vw"
                 }}>
-                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Activity View</NormalButton>
-                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}}>Text Settings</NormalButton>
+                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("activity")}}>Activity View</NormalButton>
+                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("settings")}}>Text Settings</NormalButton>
                 </div>
-                <TextSettings/>
+                    {view === "activity" && <ActivityView/>}
+                    {view === "settings" && <TextSettings/>}
                 </Box>
-                
+
             </div>
 
         )
     }
+
     function TextSettings(){
         return (
         <div>
@@ -328,10 +362,10 @@ export default function Caregiver(){
                     flexDirection: "row",
                     alignItems: "center",
                     marginTop: "5vh",
-                    
+
             }}>
-                
-                <div  
+
+                <div
                     style={{
                     display: "flex",
                     flexDirection: "column",
@@ -340,7 +374,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                     width: "60vw",
                     height: "65vh",}}>
-                    
+
                     <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh'}}>
                         Voice messages
                     </Typography>
@@ -355,7 +389,7 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <VoiceMessage/>
-                         
+
 
                     </div>
                     <div style ={{
@@ -366,15 +400,15 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        
+
                         <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                   
+
                     </div>
-                        
-                       
-                    
+
+
+
                 </div>
-                <div  
+                <div
                     style={{
                     display: "flex",
                     flexDirection: "column",
@@ -383,7 +417,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                     width: "60vw",
                     height: "65vh",}}>
-                    
+
                     <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh'}}>
                         Text messages
                     </Typography>
@@ -398,7 +432,7 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <TextMessage/>
-                         
+
 
                     </div>
                     <div style ={{
@@ -409,13 +443,13 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        
+
                         <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                   
+
                     </div>
-                        
-                       
-                    
+
+
+
                 </div>
 
             </div>
@@ -428,8 +462,8 @@ export default function Caregiver(){
                 marginLeft: '3vh',
                 marginRight: '3vh',
                 border: '5px solid #000000',}}>
-                    
-                <div  
+
+                <div
                 style={{
                 display: "flex",
                 flexDirection: "column",
@@ -437,7 +471,7 @@ export default function Caregiver(){
                 width: "90vw",
                 border: '1px solid #000000',
                 height: "65vh",}}>
-                    
+
                     <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh', display: "flex",flexDirection: "row", alignItems: "center",}}>
                         Activities and Reminders
                     </Typography>
@@ -452,7 +486,7 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <Activity/>
-                         
+
 
                     </div>
                     <div style ={{
@@ -467,21 +501,108 @@ export default function Caregiver(){
                         <NormalButton onClick={handleOpenActivity} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
                         <AddActivity openpop={openActivity} handleClosepop={handleCloseActivity}/>
                    
-                        
                     </div>
-                        
-                       
-                    
+
+
+
                 </div>
                 </div>
             </Box>
-            
-        </div> 
 
-         
+        </div>
+
+
         )
     }
 
+
+    function ActivityView(){
+        return(
+            <Box
+                sx={{
+                    width: "87vw",
+                    height: "65vh",
+                    backgroundColor: 'rgba(186, 211, 159, 1)',
+                    marginTop: "5vh",
+                    marginBottom: "5vh"
+                }}
+            >
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    columnGap: "3vw",
+                }}>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "40vw",
+                        alignItems: "flex-start",
+                        marginLeft: "3vw"
+                    }}>
+                        <Typography sx={{
+                            fontSize: "6vh",
+                            fontFamily: "Nunito"
+                        }}>
+                            {currentPatient.name}'s emotion analysis
+                        </Typography>
+                        <Box sx={{
+                            backgroundColor: "#FFFCD6",
+                            width: "30vw",
+                            height: "47vh"
+                        }}>
+                            <div style={{
+                                display: "flex",
+                                marginTop: "4vh",
+                                marginLeft: "-5vw"
+                            }}>
+                                <PieChart width={window.innerWidth * 0.4} height={window.innerHeight * 0.4}>
+                                    <Pie data={chartData} dataKey={"value"} nameKey={"name"} label={(entry) => {
+                                        return entry.name
+                                    }}/>
+                                </PieChart>
+                            </div>
+                        </Box>
+                    </div>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "40vw",
+                        alignItems: "flex-start",
+                        marginLeft: "3vw"
+                    }}>
+                        <Typography sx={{
+                            fontSize: "6vh",
+                            fontFamily: "Nunito"
+                        }}>
+                            {currentPatient.name}'s chat logs
+                        </Typography>
+                        <Box sx={{
+                            backgroundColor: "#FFFCD6",
+                            width: "35vw",
+                            height: "47vh"
+                        }}>
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                textAlign: "left"
+                            }}>
+                                {currentPatient.chats.map((chatMsg) => {
+                                    return(
+                                        <Typography sx={{
+                                            fontSize: "2vh",
+                                            fontFamily: "Nunito"
+                                        }}>
+                                            Message: {chatMsg}
+                                        </Typography>
+                                    )
+                                })}
+                            </div>
+                        </Box>
+                    </div>
+                </div>
+            </Box>
+        )
+    }
 
     return(
         <div>
@@ -496,7 +617,7 @@ export default function Caregiver(){
                     border: '1px solid #000000',
                 }}>
 
-                Doctor Page 
+                Doctor Page
                 </Typography>
             </div>
             <div>
