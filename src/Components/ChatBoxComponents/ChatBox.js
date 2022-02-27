@@ -76,7 +76,7 @@ const ChatBox = () => {
         <Box sx={{
             border: '2px solid #6A874B',
             borderRadius: '4px',
-            height: '76vh',
+            height: '70vh',
             flexDirection: 'row',
             marginLeft: "2vw",
             marginRight: "2vw",
