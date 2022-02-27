@@ -1,22 +1,28 @@
 import { Box } from '@mui/system';
+import { Typography } from '@mui/material';
 
 const ChatBoxRecieved = ({ text }) => {
   return (
-    <Box sx={{
-      height: "5vh",  
-      marginBottom: "1vh"
+    <Box maxWidth sx={{
+      minHeight: "5vh",  
+      marginBottom: "4vh",
+      textAlign: 'left'
     }}>
       <Box sx={{
-        height: "5vh",
-        ///////////////////////
-        width: "50vw",    // This part needs to be changed as the boxes will not have a set length. However, I don't know how to do that
-        ///////////////////////
-        marginRight: "auto",
-        backgroundColor: "#82AA57",
-        fontFamily:'Nunito',
-        fontSize:'160%'
+        borderRadius: '10px',
+        maxWidth: 1/2,
+        display: 'inline-flex',   
+        backgroundColor: "#8AA861",
       }}>
-        {text}
+        <Typography sx={{
+          fontFamily:'Nunito',
+          fontSize:'160%',
+          textAlign: 'left',
+          marginLeft: '1vw',
+          marginRight: '1vw'
+          }}>
+          {text}
+        </Typography>        
       </Box>
     </Box>
   )
