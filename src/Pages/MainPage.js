@@ -14,7 +14,10 @@ export default function Main(){
             <h2>Welcome to this page</h2>
             <NormalButton onClick={() => {
                 setCurrentPage("login")
-            }}>Login page</NormalButton>
+            }}>Doctor Login</NormalButton>
+            <NormalButton onClick={() => {
+                setCurrentPage("login_patient")
+            }}>Patient Login</NormalButton>
             <NormalButton onClick={() => {
                 setCurrentPage("caregiver")
             }}>Doctor</NormalButton>

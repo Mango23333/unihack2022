@@ -2,6 +2,7 @@ import './index.css';
 import { initializeApp } from "firebase/app";
 
 import LoginPage from "./Pages/LoginPage";
+import LoginPage_patient from './Pages/LoginPage_patient';
 import Main from "./Pages/MainPage";
 import Caregiver from './Pages/Caregiver';
 import Chat from './Pages/Chat';
@@ -33,6 +34,7 @@ function App() {
               }}>
                   {currentPage === "main" && <Main/>}
                   {currentPage === "login" && <LoginPage/>}
+                  {currentPage === "login_patient" && <LoginPage_patient/>}
                   {currentPage === "caregiver" && <Caregiver/>}
                   {currentPage === "chat" && <Chat/>}
               </div>
