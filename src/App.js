@@ -9,6 +9,7 @@ import Chat from './Pages/Chat';
 import {CurrentPageContext} from "./Contexts/CurrentPageContext";
 import {useState} from "react";
 import {UserContext} from "./Contexts/UserContext";
+import {PatientContext} from "./Contexts/PatientContext";
 
 function App() {
   const firebaseConfig = {
@@ -25,21 +26,24 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState("main");
   const [user, setUser] = useState(null);
+  const [patient, setPatient] = useState(null);
 
   return (
-      <UserContext.Provider value={[user, setUser]}>
-          <CurrentPageContext.Provider value={[currentPage, setCurrentPage]}>
-              <div style={{
-                  textAlign: "center"
-              }}>
-                  {currentPage === "main" && <Main/>}
-                  {currentPage === "login" && <LoginPage/>}
-                  {currentPage === "login_patient" && <LoginPage_patient/>}
-                  {currentPage === "caregiver" && <Caregiver/>}
-                  {currentPage === "chat" && <Chat/>}
-              </div>
-          </CurrentPageContext.Provider>
-      </UserContext.Provider>
+      <PatientContext.Provider value={[patient, setPatient]}>
+          <UserContext.Provider value={[user, setUser]}>
+              <CurrentPageContext.Provider value={[currentPage, setCurrentPage]}>
+                  <div style={{
+                      textAlign: "center"
+                  }}>
+                      {currentPage === "main" && <Main/>}
+                      {currentPage === "login" && <LoginPage/>}
+                      {currentPage === "login_patient" && <LoginPage_patient/>}
+                      {currentPage === "caregiver" && <Caregiver/>}
+                      {currentPage === "chat" && <Chat/>}
+                  </div>
+              </CurrentPageContext.Provider>
+          </UserContext.Provider>
+      </PatientContext.Provider>
   );
 }
 

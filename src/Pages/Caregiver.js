@@ -180,7 +180,7 @@ export default function Caregiver(){
     useEffect(() => {
         setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",}])
     }, []
-    
+
     )
     useEffect(() => {
         setVoiceData([{name: 'Hello', description: 'hello voice message', keyword:'Hello voice', task: 'Hello Bob, I hope you are going well. voice'}])
@@ -194,14 +194,6 @@ export default function Caregiver(){
 
 
     console.log(chartData)
-
-    const testData = {
-        name: "Bob",
-        stage: 1000,
-        age: 52,
-        medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",
-        chats: ["I hate you", "I enjoy eating apples", "I'm really excited for this particular event to happen tomorrow, are you excited?"]
-    }
 
     useEffect(() => {
         setPatientData([testData])
@@ -660,12 +652,12 @@ export default function Caregiver(){
 
 
                         </div>
-                        
+
                     </div>
                 </Box>
-                
+
             </div>
-            
+
 
         )
     }
