@@ -7,6 +7,7 @@ import { TextField } from '@mui/material';
 import NormalButton from './NormalButton';
 import { typography } from '@mui/system';
 import {styled} from "@mui/material";
+import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 
 export default function AddVoiceMessage(props){
     const nameTextRef = React.useRef('');
@@ -92,7 +93,6 @@ export default function AddVoiceMessage(props){
                             alignItems: "flex-start",
                             width: "50%",
                             height: '52vh',
-                            border: '1px solid #000000'
                         }}>
                         <Box >
                         <InputField
@@ -160,57 +160,43 @@ export default function AddVoiceMessage(props){
                             height: '52vh',
                             //border: '1px solid #000000'
                         }}>
-                            <Box>
-                                <InputField
-                                    error={taskerror}  
-                                    id="Task-field" 
-                                    label="Response" 
-                                    multiline
-                                    rows={12.4}
-                                    variant="outlined"
-                                    inputRef={taskTextRef}
-                                    helperText="Enter response that will be sent after the prompt message is recieved"
-                                    sx={{
-                                        bgcolor: '#FDFAE2',
-                                        borderRadius: '4px',
-                                        width: '109%',
-                                        position: 'relative',
-                                        ml: '3vw',
-                                        mt: '1vw'
-                                }}/>
+                            <Box sx={{
+                                position: 'relative',
+                                ml: '15vw',
+                                mt: '15vh'
+                            }}>
+                                <NormalButton onClick={()=> {
+                                    setNameerror(false);
+                                    setDescriptionerror(false);
+                                    setKeyWorderror(false);
+                                    setTaskerror(false);
+                                    if (nameTextRef.current.value.trim() == '')
+                                    {
+                                        setNameerror(true);
+                                    }
+                                    else if (descriptionTextRef.current.value.trim() == '')
+                                    {
+                                        setDescriptionerror(true);
+                                    }
+                                    else if ( keywordTextRef.current.value.trim() == '')
+                                    {
+                                        setKeyWorderror(true);
+                                    }
+                                    else if (taskTextRef.current.value.trim() == '')
+                                    {
+                                        setTaskerror(true);
+                                    }
+                                    else
+                                    {
+                                        props.handleClosepop();
+                                    }
+                                }}>
+                                    Add voice Message
+                                <KeyboardVoiceIcon />
+                        </NormalButton>
                             </Box>
                         </div>
                     </div>
-                </Box>
-                <Box sx={{position: 'relative', ml: '45%'}}>
-                    <NormalButton onClick={()=> {
-                        setNameerror(false);
-                        setDescriptionerror(false);
-                        setKeyWorderror(false);
-                        setTaskerror(false);
-                        if (nameTextRef.current.value.trim() == '')
-                        {
-                            setNameerror(true);
-                        }
-                        else if (descriptionTextRef.current.value.trim() == '')
-                        {
-                            setDescriptionerror(true);
-                        }
-                        else if ( keywordTextRef.current.value.trim() == '')
-                        {
-                            setKeyWorderror(true);
-                        }
-                        else if (taskTextRef.current.value.trim() == '')
-                        {
-                            setTaskerror(true);
-                        }
-                        else
-                        {
-                            props.handleClosepop();
-                        }
-                    }}>
-                        Add patient
-                    </NormalButton>
                 </Box>
             </Box>
         </Modal>

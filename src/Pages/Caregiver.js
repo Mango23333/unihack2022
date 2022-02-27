@@ -122,6 +122,39 @@ export default function Caregiver(){
         }
     }, [currentPatient])
 
+
+
+    useEffect(() => {
+        setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",}])
+    }, []
+
+    )
+    useEffect(() => {
+        setVoiceData([{name: 'Hello', description: 'hello voice message', keyword:'Hello voice', task: 'Hello Bob, I hope you are going well. voice'}])
+    }, []
+    )
+
+    useEffect(() => {
+        setTextData([{name: 'Hello', description: 'hello text message', keyword:'Hello text', task: 'Hello Bob, I hope you are going well. text'}])
+    }, []
+    )
+
+
+    console.log(chartData)
+
+    const testData = {
+        name: "Bob",
+        stage: 1000,
+        age: 52,
+        medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",
+        chats: ["I hate you", "I enjoy eating apples", "I'm really excited for this particular event to happen tomorrow, are you excited?"]
+    }
+
+    useEffect(() => {
+        setPatientData([testData])
+    }, [])
+
+
     useEffect(() => {
         if(currentVoice != null){
             voicenameRef.current.value = currentVoice.name;
@@ -147,7 +180,6 @@ export default function Caregiver(){
         const Info = styled(Button)(({ theme }) => ({
             color: '#000000',
             backgroundColor: "#BAD39F",
-            borderColor: "2px solid #000000",
             fontSize: '2vh',
             height: 120, // TO CHANGE
             width: 200,
