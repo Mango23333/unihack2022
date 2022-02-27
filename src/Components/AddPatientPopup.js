@@ -163,6 +163,7 @@ export default function AddPatient(props){
                                 console.log("asdfasdf")
                                 try {
                                     const docRef = await setDoc(doc(db, "patients", userNameTextRef.current.value), {
+                                        username: userNameTextRef.current.value,
                                         name: nameTextRef.current.value,
                                         age: ageTextRef.current.value,
                                         medHistory: "None",

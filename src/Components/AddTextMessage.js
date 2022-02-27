@@ -7,8 +7,11 @@ import { TextField } from '@mui/material';
 import NormalButton from './NormalButton';
 import { typography } from '@mui/system';
 import {styled} from "@mui/material";
+import {arrayUnion, doc, getDoc, getFirestore, updateDoc} from "firebase/firestore";
 
 export default function AddTextMessage(props){
+    const db = getFirestore();
+
     const nameTextRef = React.useRef('');
     const descriptionTextRef = React.useRef('');
     const keywordTextRef = React.useRef('');
@@ -18,6 +21,7 @@ export default function AddTextMessage(props){
     const [keyworderror, setKeyWorderror] = React.useState(false);
     const [taskerror, setTaskerror] = React.useState(false);
 
+    const currentPatient = props.currPatient;
 
     const InputField = styled(TextField)({
         '& label.Mui-focused': {
@@ -37,7 +41,7 @@ export default function AddTextMessage(props){
             borderColor: '#6A874B',
           },
         },
-        
+
         '& .MuiInputBase-input': {
             fontFamily: ['Comic Sans', '"Nunito"','"Segoe UI"',
             'Roboto',
@@ -46,8 +50,8 @@ export default function AddTextMessage(props){
             'sans-serif',].join(','),
         }
     });
-    
-  
+
+
     return(
         <Modal
             open={props.openpop}
@@ -63,7 +67,7 @@ export default function AddTextMessage(props){
             }}
         >
             <Box sx={{bgcolor: '#BAD39F', height: '100%', borderRadius: '12px'}} >
-                
+
                 <Box>
                     <Box sx={{border : '1px solid #BAD39F', borderRadius: '12px'}}>
                     <Typography sx={{
@@ -85,7 +89,7 @@ export default function AddTextMessage(props){
                         height: '52vh',
                         //border: '1px solid #000000'
                     }}>
-                    
+
                         <div style= {{
                             display: "flex",
                             flexDirection: "column",
@@ -96,9 +100,9 @@ export default function AddTextMessage(props){
                         }}>
                         <Box >
                         <InputField
-                            error={nameerror} 
-                            id="Name-field" 
-                            label="Name" 
+                            error={nameerror}
+                            id="Name-field"
+                            label="Name"
                             variant="outlined"
                             inputRef={nameTextRef}
                             helperText="Enter the name of activity"
@@ -114,9 +118,9 @@ export default function AddTextMessage(props){
                         </Box>
                         <Box>
                         <InputField
-                            error={descriptionerror}  
-                            id="Description-field" 
-                            label="Description" 
+                            error={descriptionerror}
+                            id="Description-field"
+                            label="Description"
                             multiline
                             rows={2}
                             variant="outlined"
@@ -131,17 +135,17 @@ export default function AddTextMessage(props){
                                 mt: '2vw'
                         }}/>
                         </Box>
-                        
+
                         <Box>
                         <InputField
-                            error={keyworderror}  
-                            id="Keyword-field" 
-                            label="Keywords" 
+                            error={keyworderror}
+                            id="Keyword-field"
+                            label="Keywords"
                             multiline
                             rows={2}
                             variant="outlined"
                             inputRef={keywordTextRef}
-                            helperText="Enter keywords, phrases or questions that will prompt the chosen response"
+                            helperText="Enter keywords, phrases or questions that will prompt the chosen response. Separated by comma"
                             sx={{
                                 bgcolor: '#FDFAE2',
                                 borderRadius: '4px',
@@ -159,12 +163,12 @@ export default function AddTextMessage(props){
                             width: "50%",
                             height: '52vh',
                             //border: '1px solid #000010'
-                        }}> 
+                        }}>
                             <Box>
                                 <InputField
-                                    error={taskerror}  
-                                    id="Task-field" 
-                                    label="Response" 
+                                    error={taskerror}
+                                    id="Task-field"
+                                    label="Response"
                                     multiline
                                     rows={12.4}
                                     variant="outlined"
@@ -183,7 +187,7 @@ export default function AddTextMessage(props){
                     </div>
                 </Box>
                 <Box sx={{position: 'relative', ml: '45%'}}>
-                    <NormalButton onClick={()=> {
+                    <NormalButton onClick={async ()=> {
                         setNameerror(false);
                         setDescriptionerror(false);
                         setKeyWorderror(false);
@@ -206,6 +210,22 @@ export default function AddTextMessage(props){
                         }
                         else
                         {
+                            try{
+                                const patientDocRef = doc(db, "patients", currentPatient.username)
+                                await updateDoc(patientDocRef, {
+                                    texts: arrayUnion({
+                                        name: nameTextRef.current.value,
+                                        description: descriptionTextRef.current.value,
+                                        keywords: keywordTextRef.current.value.split(","),
+                                        response: taskTextRef.current.value
+                                    })
+                                })
+                            }catch(e){
+                                alert("Error: " + e);
+                            }
+
+
+
                             props.handleClosepop();
                         }
                     }}>

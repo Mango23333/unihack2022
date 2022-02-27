@@ -92,7 +92,7 @@ export default function Caregiver(){
         if(user != null){
             getData()
         }
-    }, [openAP, openActivity, user])
+    }, [openAP, openActivity, user, openText])
 
     useEffect(() => {
         if(currentPatient != null){
@@ -536,13 +536,8 @@ export default function Caregiver(){
                                 marginTop: '1.5vh'}}>
 
                                 <NormalButton onClick={handleOpenText} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                                <AddTextMessage openpop={openText} handleClosepop={handleCloseText}/>
-
-
+                                <AddTextMessage openpop={openText} handleClosepop={handleCloseText} currPatient={currentPatient}/>
                             </div>
-
-
-
                         </div>
                     </div>
 
