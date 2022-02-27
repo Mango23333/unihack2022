@@ -9,6 +9,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {EditableTextfield} from "../Components/EditableTextfield";
 import NormalButton from "../Components/NormalButton";
 import AddActivity from "../Components/AddActivities";
+import AddVoiceMessage from "../Components/AddVoiceMessage";
+import AddTextMessage from "../Components/AddTextMessage";
 
 export default function Caregiver(){
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
@@ -20,6 +22,13 @@ export default function Caregiver(){
     const handleOpenActivity = () => setOpenActivity(true);
     const handleCloseActivity = () => setOpenActivity(false);
 
+    const [openVoice, setOpenVoice] = React.useState(false);
+    const handleOpenVoice = () => setOpenVoice(true);
+    const handleCloseVoice = () => setOpenVoice(false);
+
+    const [openText, setOpenText] = React.useState(false);
+    const handleOpenText = () => setOpenText(true);
+    const handleCloseText = () => setOpenText(false);
 
     const nameRef = useRef(null);
     const ageRef = useRef(null);
@@ -366,8 +375,9 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
+                        <NormalButton onClick={handleOpenVoice} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
+                        <AddVoiceMessage openpop={openVoice} handleClosepop={handleCloseVoice}/>
                         
-                        <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
                    
                     </div>
                         
@@ -398,6 +408,8 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <TextMessage/>
+                        
+                        
                          
 
                     </div>
@@ -409,9 +421,8 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        
-                        <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                   
+                        <NormalButton onClick={handleOpenText} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
+                        <AddVoiceMessage openpop={openText} handleClosepop={handleCloseText}/>
                     </div>
                         
                        
