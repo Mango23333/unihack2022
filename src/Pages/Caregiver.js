@@ -12,6 +12,8 @@ import NormalButton from "../Components/NormalButton";
 import AddActivity from "../Components/AddActivities";
 import axios from "axios";
 import {PieChart, Pie} from 'recharts'
+import {doc, getDoc, getFirestore} from "firebase/firestore";
+import {UserContext} from "../Contexts/UserContext";
 
 export default function Caregiver(){
     const URL = "http://34.129.170.115:3000";
@@ -25,6 +27,9 @@ export default function Caregiver(){
     const [chartData, setChartData] = useState([]);
     const [view, setView] = useState("settings")
 
+    const db = getFirestore();
+    const [user, setUser] = useContext(UserContext);
+
     //states for editing does there need to be separate ones for each different voice/text and daily activity
     const [openActivity, setOpenActivity] = React.useState(false);
     const handleOpenActivity = () => setOpenActivity(true);
@@ -35,19 +40,33 @@ export default function Caregiver(){
     const ageRef = useRef(null);
     const medHistRef = useRef(null);
 
-    console.log(chartData)
-
-    const testData = {
-        name: "Bob",
-        stage: 1000,
-        age: 52,
-        medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",
-        chats: ["I hate you", "I enjoy eating apples", "I'm really excited for this particular event to happen tomorrow, are you excited?"]
-    }
-
     useEffect(() => {
-        setPatientData([testData])
-    }, [])
+        console.log("asdfasdfsadfsdaf")
+        async function getData(){
+            var patients = []
+
+            const userDocRef = doc(db, "users", user.user.uid)
+            const userDocSnap = await getDoc(userDocRef);
+            const userData = userDocSnap.data()
+
+            console.log(userData)
+
+            for(var i = 0; i < userData.patients.length; i++){
+                var username = userData.patients[i];
+                const patientDocRef = doc(db, "patients", username);
+                const patientDocSnap = await getDoc(patientDocRef);
+                const patientData = patientDocSnap.data()
+
+                patients.push(patientData)
+            }
+
+            setPatientData(patients)
+        }
+
+        if(user != null){
+            getData()
+        }
+    }, [openAP, openActivity, user])
 
     useEffect(() => {
         if(currentPatient != null){
@@ -146,7 +165,6 @@ export default function Caregiver(){
 
   }
 
-
     function TextMessage() {
     const TextCard = styled(Button)(({ theme }) => ({
         color: '#000000',
@@ -241,6 +259,10 @@ export default function Caregiver(){
 
                     <PatientCard />
                 </Box>
+                <NormalButton onClick={handleOpenAP}>
+                    Add patient
+                </NormalButton>
+                <AddPatient openpop={openAP} handleClosepop={handleCloseAP}/>
             </div>
         )
     }
@@ -260,98 +282,90 @@ export default function Caregiver(){
                     border: ' 1px solid rgba(200, 0, 0, 1)',
                     overflow: 'auto',
                     }}>
-                    <Box
-                    sx={{
-                        width: "87vw",
-                        height: "35vh",
-                        backgroundColor: 'rgba(186, 211, 159, 1)',
-
-                    }}
-                >
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        border: '1px solid #000000'
-                    }}>
-                        <div style ={{
-                            marginLeft: '-5vw'
-                        }}>
-                        <AccountCircleIcon style={{fontSize: "30vh", marginTop: "2.5vh", marginLeft: "10vw", marginRight: "10vw"}} />
-                        </div>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "flex-start",
-                            border: '1px solid #000000',
-                            width: '60vw',
-                            marginLeft: '-5vw'
-                        }}>
+                        <Box
+                        sx={{
+                            width: "87vw",
+                            height: "35vh",
+                            backgroundColor: 'rgba(186, 211, 159, 1)',
+                            }}
+                        >
                             <div style={{
                                 display: "flex",
                                 flexDirection: "row",
+                                border: '1px solid #000000'
                             }}>
-                                <Typography sx={{
-                                    fontFamily: "Nunito",
-                                    fontSize: "4vh"
+                                <div style ={{
+                                    marginLeft: '-5vw'
                                 }}>
-                                    Name:
-                                </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "44.1vw"}} inputProps={{
-                                    style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
-                                }} ref={nameRef}/>
-                            </div>
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row"
-                            }}>
-                                <Typography sx={{
-                                    fontFamily: "Nunito",
-                                    fontSize: "4vh"
+                                <AccountCircleIcon style={{fontSize: "30vh", marginTop: "2.5vh", marginLeft: "10vw", marginRight: "10vw"}} />
+                                </div>
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "flex-start",
+                                    border: '1px solid #000000',
+                                    width: '60vw',
+                                    marginLeft: '-5vw'
                                 }}>
-                                    Age:
-                                </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "45.8vw"}} inputProps={{
-                                    style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
-                                }} ref={ageRef}/>
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                    }}>
+                                        <Typography sx={{
+                                            fontFamily: "Nunito",
+                                            fontSize: "4vh"
+                                        }}>
+                                            Name:
+                                        </Typography>
+                                        <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "44.1vw"}} inputProps={{
+                                            style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
+                                        }} ref={nameRef}/>
+                                    </div>
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row"
+                                    }}>
+                                        <Typography sx={{
+                                            fontFamily: "Nunito",
+                                            fontSize: "4vh"
+                                        }}>
+                                            Age:
+                                        </Typography>
+                                        <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.15vh", fontSize: "4vh", width: "45.8vw"}} inputProps={{
+                                            style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
+                                        }} ref={ageRef}/>
+                                    </div>
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row"
+                                    }}>
+                                        <Typography sx={{
+                                            fontFamily: "Nunito",
+                                            fontSize: "4vh"
+                                        }}>
+                                            Medical history:
+                                        </Typography>
+                                        <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.55vh", fontSize: "4vh", width: "35vw"}} inputProps={{
+                                            style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
+                                        }} ref={medHistRef}/>
+                                    </div>
+                                </div>
                             </div>
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row"
-                            }}>
-                                <Typography sx={{
-                                    fontFamily: "Nunito",
-                                    fontSize: "4vh"
-                                }}>
-                                    Medical history:
-                                </Typography>
-                                <EditableTextfield multiline style={{backgroundColor: "transparent", marginTop: "1.55vh", fontSize: "4vh", width: "35vw"}} inputProps={{
-                                    style: {fontSize: "4vh", fontFamily: "Nunito", lineHeight: "4vh", marginTop: "-2.8vh", marginBottom: "-2.8vh"}
-                                }} ref={medHistRef}/>
-                            </div>
-                        </div>
+                    </Box>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginTop: "3vh",
+                        columnGap: "7vw"
+                    }}>
+                        <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("activity")}}>Activity View</NormalButton>
+                        <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("settings")}}>Text Settings</NormalButton>
                     </div>
-                </Box>
-                
-                <NormalButton onClick={handleOpenAP}>
-                    Add patient
-                </NormalButton>
-                <AddPatient openpop={openAP} handleClosepop={handleCloseAP}/>
-            </Box>
-                <div style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginTop: "3vh",
-                    columnGap: "7vw"
-                }}>
-                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("activity")}}>Activity View</NormalButton>
-                    <NormalButton style={{width: "40vw", height: "10vh", fontSize: "4vh", fontFamily: "Nunito"}} onClick={() => {setView("settings")}}>Text Settings</NormalButton>
-                </div>
                     {view === "activity" && <ActivityView/>}
                     {view === "settings" && <TextSettings/>}
                 </Box>
-
-            </div>
+                </div>
 
         )
     }
@@ -506,10 +520,10 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        
+
                         <NormalButton onClick={handleOpenActivity} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
                         <AddActivity openpop={openActivity} handleClosepop={handleCloseActivity}/>
-                   
+
                     </div>
 
 
@@ -523,7 +537,6 @@ export default function Caregiver(){
 
         )
     }
-
 
     function ActivityView(){
         return(

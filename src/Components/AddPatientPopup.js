@@ -7,6 +7,9 @@ import { TextField } from '@mui/material';
 import NormalButton from './NormalButton';
 import { typography } from '@mui/system';
 import {styled} from "@mui/material";
+import {doc, getDoc, getFirestore, setDoc, updateDoc, arrayUnion} from "firebase/firestore";
+import {useContext} from "react";
+import {UserContext} from "../Contexts/UserContext";
 
 export default function AddPatient(props){
     const nameTextRef = React.useRef('');
@@ -16,6 +19,9 @@ export default function AddPatient(props){
     const [usernameerror, setUsernameerror] = React.useState(false);
     const [ageerror, setAgeerror] = React.useState(false);
 
+    const [user, setUser] = useContext(UserContext);
+
+    const db = getFirestore();
 
     const InputField = styled(TextField)({
         '& label.Mui-focused': {
@@ -40,7 +46,7 @@ export default function AddPatient(props){
             'sans-serif',].join(','),
         }
     });
-  
+
     return(
         <Modal
             open={props.openpop}
@@ -56,7 +62,7 @@ export default function AddPatient(props){
             }}
         >
             <Box sx={{bgcolor: '#BAD39F', height: '100%', borderRadius: '12px'}} >
-                
+
                 <Box>
                     <Box sx={{border : '1px solid #BAD39F', borderRadius: '12px'}}>
                     <Typography sx={{
@@ -73,9 +79,9 @@ export default function AddPatient(props){
                     <Box >
                     <InputField
                         required
-                        error={nameerror} 
-                        id="Name-field" 
-                        label="Name" 
+                        error={nameerror}
+                        id="Name-field"
+                        label="Name"
                         variant="outlined"
                         inputRef={nameTextRef}
                         helperText="Enter the patient's name"
@@ -92,9 +98,9 @@ export default function AddPatient(props){
                     <Box>
                     <InputField
                         required
-                        error={usernameerror}  
-                        id="Username-field" 
-                        label="Username" 
+                        error={usernameerror}
+                        id="Username-field"
+                        label="Username"
                         variant="outlined"
                         inputRef={userNameTextRef}
                         helperText="Enter any username for the patient"
@@ -110,9 +116,9 @@ export default function AddPatient(props){
                     <Box>
                     <InputField
                         required
-                        error={ageerror}  
-                        id="Age-field" 
-                        label="Age" 
+                        error={ageerror}
+                        id="Age-field"
+                        label="Age"
                         variant="outlined"
                         type="number"
                         InputLabelProps={{
@@ -131,24 +137,50 @@ export default function AddPatient(props){
                     </Box>
                 </Box>
                 <Box sx={{position: 'relative', mt: '2vw', ml: '45%'}}>
-                    <NormalButton onClick={()=> {
+                    <NormalButton onClick={async ()=> {
                         setNameerror(false);
                         setUsernameerror(false);
                         setAgeerror(false);
-                        if (nameTextRef.current.value.trim() == '')
+                        if (nameTextRef.current.value.trim() === '')
                         {
                             setNameerror(true);
                         }
-                        else if (userNameTextRef.current.value.trim() == '')
+                        else if (userNameTextRef.current.value.trim() === '')
                         {
                             setUsernameerror(true);
                         }
-                        else if (ageTextRef.current.value == '' || ageTextRef.current.value >= 120 || ageTextRef.current.value <= 0 || isNaN(ageTextRef.current.value))
+                        else if (ageTextRef.current.value === '' || ageTextRef.current.value >= 120 || ageTextRef.current.value <= 0 || isNaN(ageTextRef.current.value))
                         {
                             setAgeerror(true);
                         }
                         else
                         {
+                            const docRef = doc(db, "patients", userNameTextRef.current.value);
+                            const userDocRef = doc(db, "users", user.user.uid)
+                            const docSnap = await getDoc(docRef);
+
+                            if(!docSnap.exists()){
+                                console.log("asdfasdf")
+                                try {
+                                    const docRef = await setDoc(doc(db, "patients", userNameTextRef.current.value), {
+                                        name: nameTextRef.current.value,
+                                        age: ageTextRef.current.value,
+                                        medHistory: "None",
+                                        voices: [],
+                                        texts: [],
+                                        chats: []
+                                    });
+
+                                    await updateDoc(userDocRef, {
+                                        patients: arrayUnion(userNameTextRef.current.value)
+                                    })
+                                } catch (e) {
+                                    alert("Error adding document: " + e);
+                                }
+                            }else{
+                                alert("Patient username already exists")
+                            }
+
                             props.handleClosepop();
                         }
                     }}>

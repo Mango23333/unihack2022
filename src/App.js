@@ -7,6 +7,7 @@ import Caregiver from './Pages/Caregiver';
 import Chat from './Pages/Chat';
 import {CurrentPageContext} from "./Contexts/CurrentPageContext";
 import {useState} from "react";
+import {UserContext} from "./Contexts/UserContext";
 
 function App() {
   const firebaseConfig = {
@@ -22,18 +23,21 @@ function App() {
   const app = initializeApp(firebaseConfig);
 
   const [currentPage, setCurrentPage] = useState("main");
+  const [user, setUser] = useState(null);
 
   return (
-      <CurrentPageContext.Provider value={[currentPage, setCurrentPage]}>
-        <div style={{
-          textAlign: "center"
-        }}>
-          {currentPage === "main" && <Main/>}
-          {currentPage === "login" && <LoginPage/>}
-          {currentPage === "patients" && <Caregiver/>}
-          {currentPage === "chat" && <Chat/>}
-        </div>
-      </CurrentPageContext.Provider>
+      <UserContext.Provider value={[user, setUser]}>
+          <CurrentPageContext.Provider value={[currentPage, setCurrentPage]}>
+              <div style={{
+                  textAlign: "center"
+              }}>
+                  {currentPage === "main" && <Main/>}
+                  {currentPage === "login" && <LoginPage/>}
+                  {currentPage === "caregiver" && <Caregiver/>}
+                  {currentPage === "chat" && <Chat/>}
+              </div>
+          </CurrentPageContext.Provider>
+      </UserContext.Provider>
   );
 }
 

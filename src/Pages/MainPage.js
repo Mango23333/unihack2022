@@ -16,7 +16,7 @@ export default function Main(){
                 setCurrentPage("login")
             }}>Login page</NormalButton>
             <NormalButton onClick={() => {
-                setCurrentPage("patients")
+                setCurrentPage("caregiver")
             }}>Doctor</NormalButton>
             <NormalButton onClick={() => {
                 setCurrentPage("chat")

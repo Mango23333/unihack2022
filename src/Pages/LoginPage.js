@@ -1,5 +1,5 @@
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, doc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'
 import {useContext, useRef} from "react";
 import { Typography } from '@mui/material';
 import GoogleLogo from './kisspng-google-logo-google-search-google-account-redes-5ad81f9d785f93.4350404715241133094931.jpg';
@@ -7,6 +7,7 @@ import GoogleLogo from './kisspng-google-logo-google-search-google-account-redes
 import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import {NormalTextfield} from "../Components/NormalTextfield";
 import NormalButton from "../Components/NormalButton";
+import {UserContext} from "../Contexts/UserContext";
 
 export default function LoginPage(){
     const auth = getAuth();
@@ -16,6 +17,7 @@ export default function LoginPage(){
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
+    const [user, setUser] = useContext(UserContext);
 
     return(
         <div style={{
@@ -33,7 +35,7 @@ export default function LoginPage(){
                 justifyContent: "center",
                 rowGap: "2vh",
                 height: "40vh",
-                padding: "2vh 2vw 2vh 2vw",           
+                padding: "2vh 2vw 2vh 2vw",
                 }}>
                 <div style={{
                     display: "flex",
@@ -51,25 +53,32 @@ export default function LoginPage(){
                     alignItems: "center",
                     rowGap: "1vw",
                 }}>
-                    <NormalButton 
+                    <NormalButton
                         style={{
-                            backgroundColor: "black", 
-                            width: "40vw", 
+                            backgroundColor: "black",
+                            width: "40vw",
                             height: "5vh",
                             color: "white"}}
                         onClick={() => {
                         signInWithEmailAndPassword(auth, usernameRef.current.value, passwordRef.current.value).then(async (creds) => {
                             var uid = creds.user.uid;
-                            try {
-                                const docRef = await setDoc(doc(db, "users", uid), {
-                                    test: "test"
-                                });
-                                console.log("Documented added")
-                            } catch (e) {
-                                console.error("Error adding document: ", e);
+                            const docRef = doc(db, "users", uid);
+                            const docSnap = await getDoc(docRef);
+
+                            if(!docSnap.exists()){
+                                try {
+                                    const docRef = await setDoc(doc(db, "users", uid), {
+                                        patients: []
+                                    });
+                                } catch (e) {
+                                    alert("Error adding document: " + e);
+                                }
                             }
+
+                            setCurrentPage("caregiver")
+                            setUser(creds)
                         }).catch((error) => {
-                            console.log(error.message)
+                            alert(error.message)
                         })
                     }}>
                         <Typography
@@ -81,25 +90,32 @@ export default function LoginPage(){
                             Login with Email
                         </Typography>
                     </NormalButton>
-                    <NormalButton 
+                    <NormalButton
                         style={{
-                            backgroundColor: "black", 
-                            width: "40vw", 
+                            backgroundColor: "black",
+                            width: "40vw",
                             height: "5vh",
                             color: "white"}}
                         onClick={() => {
                         signInWithPopup(auth, provider).then(async (result) => {
                             const credential = GoogleAuthProvider.credentialFromResult(result);
-                            const uid = result.user.uid;
 
-                            try {
-                                const docRef = await setDoc(doc(db, "users", uid), {
-                                    test: "test"
-                                });
-                                console.log("Documented added")
-                            } catch (e) {
-                                console.error("Error adding document: ", e);
+                            var uid = result.user.uid;
+                            const docRef = doc(db, "users", uid);
+                            const docSnap = await getDoc(docRef);
+
+                            if(!docSnap.exists()){
+                                try {
+                                    const docRef = await setDoc(doc(db, "users", uid), {
+                                        patients: []
+                                    });
+                                } catch (e) {
+                                    alert("Error adding document: " + e);
+                                }
                             }
+
+                            setCurrentPage("caregiver")
+                            setUser(result)
                         })
                     }}>
                         <Typography
@@ -110,17 +126,17 @@ export default function LoginPage(){
                         }}>
                             Login with Google
                         </Typography>
-                        <img 
+                        <img
                         style={{
                             paddingLeft: "1vw",
                             height: "2vh"
                         }}
                         src={GoogleLogo} alt=""/>
                     </NormalButton>
-                    <NormalButton 
+                    <NormalButton
                         style={{
-                            backgroundColor: "black", 
-                            width: "40vw", 
+                            backgroundColor: "black",
+                            width: "40vw",
                             height: "5vh",
                             color: "white",
                             marginTop: "3vh"}}
