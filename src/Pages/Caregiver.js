@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
 import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddPatient from '../Components/AddPatientPopup';
 import {EditableTextfield} from "../Components/EditableTextfield";
 import NormalButton from "../Components/NormalButton";
 import AddActivity from "../Components/AddActivities";
@@ -16,6 +17,9 @@ export default function Caregiver(){
     const URL = "http://34.129.170.115:3000";
 
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
+    const [openAP, setOpenAP] = React.useState(false);
+    const handleOpenAP = () => setOpenAP(true);
+    const handleCloseAP = () => setOpenAP(false);
     const [patientData, setPatientData] = useState([]);
     const [currentPatient, setCurrentPatient] = useState(null);
     const [chartData, setChartData] = useState([]);
@@ -327,6 +331,12 @@ export default function Caregiver(){
                         </div>
                     </div>
                 </Box>
+                
+                <NormalButton onClick={handleOpenAP}>
+                    Add patient
+                </NormalButton>
+                <AddPatient openpop={openAP} handleClosepop={handleCloseAP}/>
+            </Box>
                 <div style={{
                     display: "flex",
                     flexDirection: "row",
@@ -451,7 +461,6 @@ export default function Caregiver(){
 
 
                 </div>
-
             </div>
 
             <div style={{
