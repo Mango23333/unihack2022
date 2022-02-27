@@ -158,8 +158,8 @@ export default function AddTextMessage(props){
                             alignItems: "flex-start",
                             width: "50%",
                             height: '52vh',
-                            //border: '1px solid #000000'
-                        }}>
+                            //border: '1px solid #000010'
+                        }}> 
                             <Box>
                                 <InputField
                                     error={taskerror}  
