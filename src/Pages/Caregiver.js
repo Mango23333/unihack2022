@@ -21,7 +21,7 @@ import {UserContext} from "../Contexts/UserContext";
 
 
 export default function Caregiver(){
-    const URL = "http://34.129.170.115:3000";
+    const URL = "http://27.32.153.144:3000";
 
     const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
     const [openAP, setOpenAP] = React.useState(false);

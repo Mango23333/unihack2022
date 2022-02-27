@@ -2,8 +2,11 @@ import React, {useEffect} from 'react';
 import { Box } from '@mui/system';
 import Messages from './MessagesComponents/Messages';
 import { TextField } from '@mui/material';
+import axios from "axios";
 
 const ChatBox = () => {
+    const URL = "http://27.32.153.144:3000";
+
     var textSendRef = React.useRef("");
     const [chatHistory, setChatHistory] = React.useState([]);
     const messagesEndRef = React.createRef();
@@ -31,6 +34,9 @@ const ChatBox = () => {
           if ((event.code === "Enter" || event.code === "NumpadEnter") && textSendRef.current.value.trim() != "") {
             event.preventDefault();
             console.log("Enter key was pressed. Run your function.");
+            axios.get(`${URL}/chat?text=${textSendRef.current.value}`).then((response) => {
+                updateChatHistory({sender: 0, texts: response.data})
+            })
             currentChat.texts = textSendRef.current.value;
             currentChat.sender = 1;
             updateChatHistory(Object.assign({}, currentChat));
@@ -61,7 +67,7 @@ const ChatBox = () => {
         <Box sx={{
                 height: "10vh",
             }}>
-                <TextField 
+                <TextField
                     type="text"
                     placeholder="Enter text here and press enter to send message"
                     inputRef={textSendRef}
