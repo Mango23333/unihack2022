@@ -176,6 +176,38 @@ export default function Caregiver(){
     }, [currentText])
 
 
+    // TO REMOVE
+    useEffect(() => {
+        setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",}])
+    }, []
+    
+    )
+    useEffect(() => {
+        setVoiceData([{name: 'Hello', description: 'hello voice message', keyword:'Hello voice', task: 'Hello Bob, I hope you are going well. voice'}])
+    }, []
+    )
+
+    useEffect(() => {
+        setTextData([{name: 'Hello', description: 'hello text message', keyword:'Hello text', task: 'Hello Bob, I hope you are going well. text'}])
+    }, []
+    )
+
+
+    console.log(chartData)
+
+    const testData = {
+        name: "Bob",
+        stage: 1000,
+        age: 52,
+        medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",
+        chats: ["I hate you", "I enjoy eating apples", "I'm really excited for this particular event to happen tomorrow, are you excited?"]
+    }
+
+    useEffect(() => {
+        setPatientData([testData])
+    }, [])
+    //
+
     function PatientCard() {
         const Info = styled(Button)(({ theme }) => ({
             color: '#000000',
@@ -227,7 +259,7 @@ export default function Caregiver(){
             p: 2,
 
             '&:hover': {
-                backgroundColor: "#BAD39F",
+                backgroundColor: "#6A874B",
                 borderColor: "#000000",
             }
     }));
@@ -260,7 +292,7 @@ export default function Caregiver(){
             p: 2,
 
             '&:hover': {
-                backgroundColor: "#BAD39F",
+                backgroundColor: "#6A874B",
                 borderColor: "#000000",
             }
         }));
@@ -295,7 +327,7 @@ export default function Caregiver(){
             p: 2,
 
             '&:hover': {
-                backgroundColor: "#BAD39F",
+                backgroundColor: "#6A874B",
                 borderColor: "#000000",
             }
         }));
@@ -326,7 +358,7 @@ export default function Caregiver(){
                 </Typography>
                 <Box
                     sx={{
-                        border: '2px solid #000000', // to remove
+                        //border: '2px solid #000000', // to remove
                         margin: '5vh',
                         marginLeft: '3vh',
                         marginRight: '3vh',
@@ -367,7 +399,7 @@ export default function Caregiver(){
                         width: "88vw",
                         height: '70vh',
                         margin: "3vh",
-                        border: ' 1px solid rgba(200, 0, 0, 1)',
+                        //border: ' 1px solid rgba(200, 0, 0, 1)',
                         overflow: 'auto',
                     }}>
                     <Box
@@ -380,7 +412,9 @@ export default function Caregiver(){
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
-                            border: '1px solid #000000'
+                            //border: '1px solid #000000',
+                            marginTop: '0.5vh'
+
                         }}>
                             <div style ={{
                                 marginLeft: '-5vw'
@@ -391,7 +425,7 @@ export default function Caregiver(){
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "flex-start",
-                                border: '1px solid #000000',
+                                //border: '1px solid #000000',
                                 width: '60vw',
                                 marginLeft: '-5vw'
                             }}>
@@ -486,7 +520,7 @@ export default function Caregiver(){
                                 flexDirection: "column",
                                 alignItems: "flex-start",
                                 margin: '3vh',
-                                border: '1px solid #000000',
+                                //border: '1px solid #000000',
                                 width: "60vw",
                                 height: "65vh",}}>
 
@@ -494,7 +528,7 @@ export default function Caregiver(){
                                 Voice messages
                             </Typography>
                             <div style ={{
-                                border: '1px solid #ffffff',
+                                //border: '1px solid #ffffff',
                                 width: "39.5vw",
                                 height: '50vh',
                                 display: "flex",
@@ -514,7 +548,7 @@ export default function Caregiver(){
 
                             </div>
                             <div style ={{
-                                border: '1px solid #ffffff',
+                                //border: '1px solid #ffffff',
                                 width: "39.5vw",
                                 height: '5vh',
                                 display: "flex",
@@ -538,7 +572,7 @@ export default function Caregiver(){
                                 flexDirection: "column",
                                 alignItems: "flex-start",
                                 margin: '3vh',
-                                border: '1px solid #000000',
+                                //border: '1px solid #000000',
                                 width: "60vw",
                                 height: "65vh",}}>
 
@@ -546,9 +580,9 @@ export default function Caregiver(){
                                 Text messages
                             </Typography>
                             <div style ={{
-                                border: '1px solid #ffffff',
+                                //border: '1px solid #ffffff',
                                 width: "39.5vw",
-                                Height: '50vh',
+                                height: '50vh',
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
@@ -559,7 +593,7 @@ export default function Caregiver(){
 
                             </div>
                             <div style ={{
-                                border: '1px solid #ffffff',
+                                //border: '1px solid #ffffff',
                                 width: "39.5vw",
                                 height: '5vh',
                                 display: "flex",
@@ -580,7 +614,8 @@ export default function Caregiver(){
                         marginTop: "5vh",
                         marginLeft: '3vh',
                         marginRight: '3vh',
-                        border: '5px solid #000000',}}>
+                        //border: '5px solid #000000',
+                        }}>
 
                         <div
                             style={{
@@ -588,14 +623,14 @@ export default function Caregiver(){
                                 flexDirection: "column",
                                 alignItems: "flex-start",
                                 width: "90vw",
-                                border: '1px solid #000000',
+                                //border: '1px solid #000000',
                                 height: "65vh",}}>
 
                             <Typography sx ={{fontFamily: "Nunito",fontSize: "4vh", marginBottom: '1vh', display: "flex",flexDirection: "row", alignItems: "center",}}>
                                 Activities and Reminders
                             </Typography>
                             <div style ={{
-                                border: '1px solid #ffffff',
+                                //border: '1px solid #ffffff',
                                 width: "100%",
                                 height: '50vh',
                                 display: "flex",
@@ -609,7 +644,7 @@ export default function Caregiver(){
 
                             </div>
                             <div style ={{
-                                border: '1px solid #ffffff',
+                                //border: '1px solid #ffffff',
                                 width: '100%',
                                 height: '5vh',
                                 display: "flex",
@@ -625,11 +660,12 @@ export default function Caregiver(){
 
 
                         </div>
+                        
                     </div>
                 </Box>
-
+                
             </div>
-
+            
 
         )
     }
@@ -727,12 +763,12 @@ export default function Caregiver(){
             <div >
                 <Typography
                     sx = {{
-                        fontFamily: 'Oxygen',
+                        fontFamily: 'Nunito',
                         fontSize:'260%',
                         color: '#000000',
                         textAlign: "left",
                         marginLeft: '2vw',
-                        border: '1px solid #000000',
+                        //border: '1px solid #000000',
                     }}>
 
                     Doctor Page
@@ -743,7 +779,7 @@ export default function Caregiver(){
                     border: '2px solid #6A874B',
                     borderRadius: '4px',
                     marginTop: '0.5%',
-                    height: '77vh', //70vh
+                    height: '75vh', //70vh
                     flexDirection: 'row',
                     width: '90.6vw',
                     //overflow: 'auto', // to remove
@@ -753,6 +789,17 @@ export default function Caregiver(){
                     {currentPatient == null && Overview()}
                     {currentPatient != null && Detailed()}
                 </Box>
+                <div style ={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: '90.6vw',
+                    height: '5vh',
+                    marginLeft: '2vw',
+                    //border: '1px solid #000000',
+                }}>
+                <NormalButton sx ={{height: '6vh', width: '20vw'}} >Return to patients</NormalButton>
+                <NormalButton sx ={{height: '6vh', width: '20vw'}} >Return to home</NormalButton>
+            </div>
             </div>
         </div>
     )
