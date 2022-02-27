@@ -17,6 +17,12 @@ export default function Caregiver(){
     const [patientData, setPatientData] = useState([]);
     const [currentPatient, setCurrentPatient] = useState(null);
 
+    const [voiceData, setVoiceData] = useState([]);
+    const [currentVoice, setCurrentVoice] = useState(null);
+
+    const [textData, setTextData] = useState([]);
+    const [currentText, setCurrentText] = useState(null);
+
     //states for editing does there need to be separate ones for each different voice/text and daily activity
     const [openActivity, setOpenActivity] = React.useState(false);
     const handleOpenActivity = () => setOpenActivity(true);
@@ -34,9 +40,33 @@ export default function Caregiver(){
     const ageRef = useRef(null);
     const medHistRef = useRef(null);
 
+    const voicenameRef = useRef(null);
+    const voicedescRef = useRef(null);
+    const voicekeywordRef = useRef(null);
+    const voicetaskRef = useRef(null);
+
+    const textnameRef = useRef(null);
+    const textdescRef = useRef(null);
+    const textkeywordRef = useRef(null);
+    const texttaskRef = useRef(null);
+
+    
+
     useEffect(() => {
-        setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9"}])
-    }, [])
+        setPatientData([{name: "Bob", stage: 1000, age: 52, medHistory: "cancer1, cancer2, cancer3, cancer4, cancer5, cancer6, cancer7, cancer8, cancer9",}])
+    }, []
+    
+    )
+    useEffect(() => {
+        setVoiceData([{name: 'Hello', description: 'hello voice message', keyword:'Hello voice', task: 'Hello Bob, I hope you are going well. voice'}])
+    }, []
+    )
+
+    useEffect(() => {
+        setTextData([{name: 'Hello', description: 'hello text message', keyword:'Hello text', task: 'Hello Bob, I hope you are going well. text'}])
+    }, []
+    )
+
 
     useEffect(() => {
         if(currentPatient != null){
@@ -46,6 +76,26 @@ export default function Caregiver(){
         }
 
     }, [currentPatient])
+
+    useEffect(() => {
+        if(currentVoice != null){
+            voicenameRef.current.value = currentVoice.name;
+            voicedescRef.current.value = currentVoice.description;
+            voicekeywordRef.current.value = currentVoice.keyword;
+            voicetaskRef.current.value = currentVoice.task;
+        }
+
+    }, [currentVoice])
+    
+    useEffect(() => {
+        if(currentText != null){
+            textnameRef.current.value = currentText.name;
+            textdescRef.current.value = currentText.description;
+            textkeywordRef.current.value = currentText.keyword;
+            texttaskRef.current.value = currentText.task;
+        }
+
+    }, [currentText])
 
 
     function PatientCard() {
@@ -104,18 +154,19 @@ export default function Caregiver(){
                 borderColor: "#000000",
             }
     }));
+    return voiceData.map((obj) => {
+        return(
+            
+            <VoiceCard onclick = {openVoice}> 
+                <Typography>
+                    {obj.name}
+                </Typography>
+            </VoiceCard>
+        )
 
-
-    return(
-        <VoiceCard> 
-            <Typography>
-              Voiceobject.name
-            </Typography>
-        </VoiceCard>
-    )
-
-  }
-
+     });
+    }
+  
 
   function TextMessage() {
     const TextCard = styled(Button)(({ theme }) => ({
@@ -135,16 +186,20 @@ export default function Caregiver(){
             }
     }));
 
+    return textData.map((obj) => {
+        return(
+            
+            <TextCard onclick = {openVoice}> 
+                <Typography>
+                    {obj.name}
+                </Typography>
+            </TextCard>
+        )
 
-    return(
-        <TextCard> 
-            <Typography>
-              Textobject.name
-            </Typography>
-        </TextCard>
-    )
+     });
+    }
 
-  }
+  
 
   function Activity() {
     const ActivityCard = styled(Button)(({ theme }) => ({
@@ -168,7 +223,7 @@ export default function Caregiver(){
     return(
         <ActivityCard> 
             <Typography>
-              Activityobject.name
+              hello
             </Typography>
         </ActivityCard>
     )
@@ -337,7 +392,7 @@ export default function Caregiver(){
                     flexDirection: "row",
                     alignItems: "center",
                     marginTop: "5vh",
-                    
+                    border: '1px solid #000000'
             }}>
                 
                 <div  
@@ -363,7 +418,9 @@ export default function Caregiver(){
                         rowGap: '2vh',
                         overflow: 'auto',
                         }}>
-                        <VoiceMessage/>
+                        
+                        <VoiceMessage onClick={handleOpenVoice}/>
+                        <AddVoiceMessage openpop={openVoice} handleClosepop={handleCloseVoice}/>
                          
 
                     </div>
@@ -375,7 +432,7 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-                        <NormalButton onClick={handleOpenVoice} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
+                        <NormalButton onClick={handleOpenVoice} sx ={{height: '6vh', width: '20vw'}} >Add new</NormalButton>
                         <AddVoiceMessage openpop={openVoice} handleClosepop={handleCloseVoice}/>
                         
                    
@@ -400,7 +457,7 @@ export default function Caregiver(){
                     <div style ={{
                         border: '1px solid #ffffff',
                         width: "39.5vw",
-                        height: '50vh',
+                        Height: '50vh',
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -408,6 +465,7 @@ export default function Caregiver(){
                         overflow: 'auto',
                         }}>
                         <TextMessage/>
+                        
                         
                         
                          
@@ -422,7 +480,7 @@ export default function Caregiver(){
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
                         <NormalButton onClick={handleOpenText} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-                        <AddVoiceMessage openpop={openText} handleClosepop={handleCloseText}/>
+                        <AddTextMessage openpop={openText} handleClosepop={handleCloseText}/>
                     </div>
                         
                        
