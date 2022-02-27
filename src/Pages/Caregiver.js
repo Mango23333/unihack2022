@@ -729,8 +729,7 @@ export default function Caregiver(){
                     marginLeft: '2vw',
                     //border: '1px solid #000000',
                 }}>
-                <NormalButton sx ={{height: '6vh', width: '20vw'}} >Return to patients</NormalButton>
-                <NormalButton sx ={{height: '6vh', width: '20vw'}} >Return to home</NormalButton>
+                <NormalButton sx ={{height: '6vh', width: '20vw'}} onClick={() => {setCurrentPage('main')}}>Return to home</NormalButton>
             </div>
             </div>
         </div>
