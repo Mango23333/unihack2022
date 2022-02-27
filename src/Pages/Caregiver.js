@@ -8,6 +8,7 @@ import {CurrentPageContext} from "../Contexts/CurrentPageContext";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {EditableTextfield} from "../Components/EditableTextfield";
 import NormalButton from "../Components/NormalButton";
+import AddActivity from "../Components/AddActivities";
 import axios from "axios";
 import {PieChart, Pie} from 'recharts'
 
@@ -19,6 +20,12 @@ export default function Caregiver(){
     const [currentPatient, setCurrentPatient] = useState(null);
     const [chartData, setChartData] = useState([]);
     const [view, setView] = useState("settings")
+
+    //states for editing does there need to be separate ones for each different voice/text and daily activity
+    const [openActivity, setOpenActivity] = React.useState(false);
+    const handleOpenActivity = () => setOpenActivity(true);
+    const handleCloseActivity = () => setOpenActivity(false);
+
 
     const nameRef = useRef(null);
     const ageRef = useRef(null);
@@ -490,9 +497,10 @@ export default function Caregiver(){
                         flexDirection: "column",
                         alignItems: "center",
                         marginTop: '1.5vh'}}>
-
-                        <NormalButton sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
-
+                        
+                        <NormalButton onClick={handleOpenActivity} sx ={{height: '6vh', width: '20vw'}}>Add new</NormalButton>
+                        <AddActivity openpop={openActivity} handleClosepop={handleCloseActivity}/>
+                   
                     </div>
 
 
