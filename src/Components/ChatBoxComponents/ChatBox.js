@@ -5,25 +5,36 @@ import { TextField } from '@mui/material';
 
 const ChatBox = () => {
     var textSendRef = React.useRef("");
-    const [defaultTextValue, setDefaultTextValue] = React.useState("")
-    var chatHistory = [];
+    const [chatHistory, setChatHistory] = React.useState([]);
+    const messagesEndRef = React.createRef();
     var currentChat = {
         texts: "",
     //patient have number 1 and bot have number 0
         sender: 0,
     };
 
+    function scrollToBottom(){
+      messagesEndRef.current.scrollIntoView({behavior: 'smooth'})
+    };
+
+    function updateChatHistory(message){
+      chatHistory.push(message)
+      setChatHistory([...chatHistory])
+    }
+
+    useEffect(() => {
+      scrollToBottom()
+    })
+
     useEffect(() => {
         const listener = event => {
           if ((event.code === "Enter" || event.code === "NumpadEnter") && textSendRef.current.value.trim() != "") {
             event.preventDefault();
+            console.log("Enter key was pressed. Run your function.");
             currentChat.texts = textSendRef.current.value;
             currentChat.sender = 1;
-            let currentChattemp = Object.assign({}, currentChat);
-            chatHistory.push(currentChattemp);
+            updateChatHistory(Object.assign({}, currentChat));
             textSendRef.current.value = "";
-            console.log(chatHistory);
-            console.log("Enter key was pressed. Run your function.");
           }
         };
         document.addEventListener("keydown", listener);
@@ -42,9 +53,10 @@ const ChatBox = () => {
             marginLeft: "2vw",
             marginRight: "2vw",
             overflow: 'auto',
-            backgroundColor: '#FFFCD6'
+            backgroundColor: '#FFFCD6',
         }}>
             <Messages chathis={chatHistory} />
+            <div ref={messagesEndRef}/>
         </Box>
         <Box sx={{
                 height: "10vh",
@@ -53,7 +65,6 @@ const ChatBox = () => {
                     type="text"
                     placeholder="Enter text here and press enter to send message"
                     inputRef={textSendRef}
-                    value={textSendRef.current.value}
                     style={{
                         marginTop: '0.5vw',
                         borderRadius: '4px',
