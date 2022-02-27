@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'
 import {useContext, useRef} from "react";
 import { Typography } from '@mui/material';
@@ -132,6 +132,43 @@ export default function LoginPage(){
                             height: "2vh"
                         }}
                         src={GoogleLogo} alt=""/>
+                    </NormalButton>
+                    <NormalButton
+                        style={{
+                            backgroundColor: "black",
+                            width: "40vw",
+                            height: "5vh",
+                            color: "white"}}
+                        onClick={() => {
+                            createUserWithEmailAndPassword(auth, usernameRef.current.value, passwordRef.current.value).then(async (creds) => {
+                                var uid = creds.user.uid;
+                                const docRef = doc(db, "users", uid);
+                                const docSnap = await getDoc(docRef);
+
+                                if(!docSnap.exists()){
+                                    try {
+                                        const docRef = await setDoc(doc(db, "users", uid), {
+                                            patients: []
+                                        });
+                                    } catch (e) {
+                                        alert("Error adding document: " + e);
+                                    }
+                                }
+
+                                setCurrentPage("caregiver")
+                                setUser(creds)
+                            }).catch((error) => {
+                                alert("Failed to register: " + error);
+                            })
+                        }}>
+                        <Typography
+                            sx = {{
+                                fontFamily:'Nunito',
+                                color: "white",
+                                fontSize: "200%",
+                            }}>
+                            Register new account
+                        </Typography>
                     </NormalButton>
                     <NormalButton
                         style={{

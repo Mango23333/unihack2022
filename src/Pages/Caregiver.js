@@ -163,6 +163,7 @@ export default function Caregiver(){
                 return (
                     <Info onClick={() => {
                         setCurrentPatient(obj)
+                        setTextData(obj.texts)
                     }}>
                         <div style={{
                             display: "flex",
@@ -233,15 +234,12 @@ export default function Caregiver(){
 
         return textData.map((obj) => {
             return(
-
-                <TextCard onclick = {openVoice}>
+                <TextCard>
                     <Typography>
                         {obj.name}
                     </Typography>
                 </TextCard>
             )
-
-
         });
     }
 
