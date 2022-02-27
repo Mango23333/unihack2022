@@ -1,13 +1,16 @@
 import {Button, styled} from "@mui/material";
 
-export default function NormalButton(props){
+export default function Patients(props){
     const ColorButton = styled(Button)(({ theme }) => ({
-        color: 'white',
-        backgroundColor: "rgba(106,135,75,1)",
-        borderWidth: 0,
+        color: '#000000',
+        backgroundColor: "#BAD39F",
+        borderWidth: 2,
+        borderColor: "#000000",
         '&:hover': {
-            backgroundColor: "rgba(106,135,75,0.7)",
-        },
+            backgroundColor: "#A6BE8D",
+            borderColor: "#000000",
+        }
+
     }));
 
     return (
